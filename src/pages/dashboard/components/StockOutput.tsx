@@ -2,6 +2,7 @@ import DataTable from './DataTable'
 import useProductsTable from 'src/hooks/tableColumns/useProductsTable'
 import useLowStock from 'src/hooks/queries/useLowStock'
 import { LuHeartPulse } from 'react-icons/lu'
+import { Product } from 'src/types'
 
 const StockOutput = () => {
   const tableColumns = useProductsTable()
@@ -15,7 +16,7 @@ const StockOutput = () => {
       <h1 className="my-5 font-medium">Stock alert</h1>
       <DataTable
         columns={tableColumns}
-        data={data}
+        data={data as Product[]}
         isSearchable={false}
         noResultText={
           <div className="flex items-center gap-2 justify-center">

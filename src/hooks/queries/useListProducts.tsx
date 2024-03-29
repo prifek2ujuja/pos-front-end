@@ -1,17 +1,9 @@
 import { useQuery } from '@tanstack/react-query'
 import axios from 'src/api/axios'
-
-type ResponseData = {
-  _id: string
-  name: string
-  price: number
-  description: string
-  productImage: string
-  stock: number
-}
+import { Product } from 'src/types'
 
 const useListProducts = () => {
-  return useQuery<ResponseData[]>({
+  return useQuery<Product[]>({
     queryKey: ['products'],
     queryFn: async () => {
       const response = await axios.get('products')

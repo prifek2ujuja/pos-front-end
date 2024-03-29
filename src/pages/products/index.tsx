@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom'
 import useProductsTable from 'src/hooks/tableColumns/useProductsTable'
 import useListProducts from 'src/hooks/queries/useListProducts'
 import Auth from 'src/state/Auth'
+import { Product } from 'src/types'
 
 const Index = () => {
   const tableColumns = useProductsTable()
@@ -23,7 +24,7 @@ const Index = () => {
       </div>
       <DataTable
         columns={tableColumns}
-        data={data}
+        data={data as Product[]}
         isSearchable={true}
         searchField="name"
         searchFieldPlaceholder="Filter order"

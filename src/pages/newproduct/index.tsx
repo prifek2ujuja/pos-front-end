@@ -1,3 +1,4 @@
+/* eslint-disable no-constant-condition */
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from 'src/components/ui/form'
 import { Input } from 'src/components/ui/input'
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -11,9 +12,9 @@ import useCreateProduct from 'src/hooks/mutations/useCreateProduct'
 import PropagateLoader from 'react-spinners/PropagateLoader'
 import { Navigate, useLocation, useNavigate } from 'react-router-dom'
 import useEditProduct from 'src/hooks/mutations/useEditProduct'
-import { useDropzone } from 'react-dropzone'
-import { useCallback } from 'react'
-import { getHeaderLayout, getNoneLayout } from 'src/components/layout'
+// import { useDropzone } from 'react-dropzone'
+// import { useCallback } from 'react'
+import { getHeaderLayout } from 'src/components/layout'
 import Auth from 'src/state/Auth'
 import { FaArrowLeft } from 'react-icons/fa'
 
@@ -21,11 +22,11 @@ type FormValues = z.infer<typeof createProductSchema>
 const Index = () => {
   const { state } = useLocation()
 
-  const onDrop = useCallback((acceptedFiles) => {
-    // Do something with the files
-  }, [])
+  // const onDrop = useCallback((acceptedFiles) => {
+  //   // Do something with the files
+  // }, [])
   const navigate = useNavigate()
-  const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop })
+  // const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop })
   const orderForm = useForm<FormValues>({
     resolver: zodResolver(createProductSchema),
     defaultValues: {
@@ -147,14 +148,17 @@ const Index = () => {
               <FormItem className="mb-4 w-full">
                 <FormLabel>Product image</FormLabel>
                 <FormControl>
-                  <div {...getRootProps()} className="relative  bg-light-gray rounded-xl max-w-6xl h-52">
+                  <div
+                    // {...getRootProps()}
+                    className="relative  bg-light-gray rounded-xl max-w-6xl h-52"
+                  >
                     <input
-                      {...getInputProps()}
+                      // {...getInputProps()}
                       className="w-full cursor-pointer flex items-center justify-center bg-light-gray rounded-xl h-40"
                     />
                     <div className="absolute top-1/4 left-1/4 flex flex-col items-center gap-2">
                       <MdAddAPhoto className="text-3xl" />
-                      {isDragActive ? (
+                      {true ? (
                         <p>Drop the files here ...</p>
                       ) : (
                         <p>Drag and drop some files here, or click to select files</p>
