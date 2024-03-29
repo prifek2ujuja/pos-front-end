@@ -1,9 +1,14 @@
 import axios from 'axios'
+
 import Auth from 'src/state/Auth'
 
-const baseUrl = 'http://localhost:3000/api/'
+// Define the base URL for your API depending on the environment
+const environment = import.meta.env.DEV
+
+const baseUrl = environment ? import.meta.env.VITE_BACKEND_URL_DEV : import.meta.env.VITE_BACKEND_URL_PROD
+
 const api = axios.create({
-  baseURL: baseUrl,
+  baseURL: `${baseUrl}/api/`,
 })
 
 // Function to refresh the access token using your refresh token route
@@ -14,8 +19,8 @@ const refreshTokenFunction = async () => {
       const response = await axios.post(
         // @ts-ignore
         // import.meta.env.PROD
-        //   ? 'https://server.rocketbet.ke/api/auth/refresh'
-        'http://localhost:3000/api/users/refresh',
+        //   ? 'htstps://server.rocketbet.ke/api/auth/refresh'
+        'https://prife-backend-production.up.railway.app/api/users/refresh',
         {
           // Add your refresh token data here
           // parse localstorage to an object
@@ -35,6 +40,7 @@ const refreshTokenFunction = async () => {
         status: null,
         token: null,
         userName: null,
+        id: null,
       })
       // Handle token refresh error (e.g., redirect to login)
       window.location.href = '/'
