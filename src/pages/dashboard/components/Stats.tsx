@@ -1,10 +1,11 @@
-import { IoMdArrowDropdown } from 'react-icons/io'
 import { Skeleton } from 'src/components/ui/skeleton'
 import useOrderStats from 'src/hooks/queries/useOrderStats'
+import { FaCashRegister } from 'react-icons/fa6'
+import { BsCashStack } from 'react-icons/bs'
+import { GiCash } from 'react-icons/gi'
 
 const Stats = () => {
   const { data: stats, isLoading: statsIsLoading, isSuccess } = useOrderStats()
-  console.log(stats)
   return (
     <section className="w-full flex flex-col gap-10 md:gap-5 md:flex-row  mb-16">
       <div className="w-full md:w-[400px] lg:w-1/3 flex flex-col justify-between">
@@ -13,9 +14,12 @@ const Stats = () => {
             <h1 className="font-medium text-2xl">20</h1>
             <p className=" text-xs font-medium md:text-sm">Today&apos;s therapy sessions</p>
           </div> */}
-          <div>
+          <div className="w-full">
             <h1 className="font-medium text-2xl">{stats?.ordersInLastTwentyFourHours.totalOrders}</h1>
-            <p className=" text-xs md:text-sm font-medium">Today&apos;s total sales</p>
+            <div className="flex justify-between w-full">
+              <p className=" text-xs md:text-sm font-medium">Today&apos;s total sales</p>
+              <FaCashRegister className="text-sky" size={21} />
+            </div>
           </div>
         </div>
       </div>
@@ -30,12 +34,9 @@ const Stats = () => {
           ) : isSuccess ? (
             <div className="flex flex-col lg:flex-row md:gap-4 lg:items-center w-full">
               <h1 className="text-2xl font-medium">{stats?.ordersInLastOneWeek.totalOrders}</h1>
-              <div className="flex justify-between w-full">
+              <div className="flex justify-between items-center w-full">
                 <p className="font-medium">ksh {stats?.ordersInLastOneWeek.totalValue}</p>
-                <div className="flex items-center text-xs text-sky">
-                  <IoMdArrowDropdown />
-                  <p>21.2%</p>
-                </div>
+                <BsCashStack className="text-sky" size={21} />
               </div>
             </div>
           ) : (
@@ -50,10 +51,7 @@ const Stats = () => {
             <h1 className="text-2xl font-medium">{stats?.allTimeOrders.totalOrders}</h1>
             <div className="flex justify-between w-full">
               <p className="font-medium ">ksh {stats?.allTimeOrders.totalValue}</p>
-              <div className="flex items-center text-xs text-sky">
-                <IoMdArrowDropdown />
-                <p>21.2%</p>
-              </div>
+              <GiCash className="text-sky" size={27} />
             </div>
           </div>
         </div>

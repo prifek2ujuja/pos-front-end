@@ -51,12 +51,12 @@ const EditStock = ({ productId, stock, productName }: Props) => {
       <PopoverContent className="w-80">
         <Form {...editStockForm}>
           <form
-            className="p-2 rounded-2xl bg-white shadow-xl md:p-4"
+            className="p-2 rounded-2xl bg-white shadow-2xl md:p-4"
             action=""
             onSubmit={editStockForm.handleSubmit(onFormSubmitReady)}
           >
             <div className="mb-3">
-              <h1 className="text-lg font-medium">Edit {productName} stock</h1>
+              <h1 className="text-base md:text-lg font-medium">Edit {productName} stock</h1>
             </div>
             <FormField
               control={editStockForm.control}

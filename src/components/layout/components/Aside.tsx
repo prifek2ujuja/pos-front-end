@@ -7,20 +7,20 @@ import Auth from 'src/state/Auth'
 const Aside = () => {
   const { pathname } = useLocation()
   return (
-    <section className="hidden md:flex flex-col gap-7 pt-20 px-10">
+    <section className="hidden lg:flex flex-col gap-7 pt-20 px-10">
       <Link
         to="/dashboard"
-        className={`flex items-center font-medium rounded-2xl gap-2 p-2 ${
-          pathname.includes('dashboard') ? 'text-sky bg-white' : ''
+        className={`flex items-center font-medium rounded-xl gap-2 p-2 ${
+          pathname.includes('dashboard') ? 'text-sky bg-primary' : ''
         }`}
       >
         <MdOutlineDashboard />
-        <p>Dashboard</p>
+        <p>Overview</p>
       </Link>
       <Link
         to="/orders"
-        className={`flex items-center font-medium rounded-2xl gap-2 p-2 ${
-          pathname.includes('orders') ? 'text-sky bg-white' : ''
+        className={`flex items-center font-medium rounded-xl gap-2 p-2 ${
+          pathname.includes('orders') ? 'text-sky bg-primary' : ''
         }`}
       >
         <CiWallet />
@@ -28,8 +28,8 @@ const Aside = () => {
       </Link>
       <Link
         to="/products"
-        className={`flex items-center font-medium rounded-2xl gap-2 p-2 ${
-          pathname.includes('products') ? 'text-sky bg-white' : ''
+        className={`flex items-center font-medium rounded-xl gap-2 p-2 ${
+          pathname.includes('products') ? 'text-sky bg-primary' : ''
         }`}
       >
         <CiPillsBottle1 />
@@ -38,8 +38,8 @@ const Aside = () => {
       {(Auth.role.value === 'admin' || Auth.role.value === 'manager') && (
         <Link
           to="/users"
-          className={`flex items-center font-medium rounded-2xl gap-2 p-2 ${
-            pathname.includes('users') ? 'text-sky bg-white' : ''
+          className={`flex items-center font-medium rounded-xl gap-2 p-2 ${
+            pathname.includes('users') ? 'text-sky bg-primary' : ''
           }`}
         >
           <TbUsersGroup />
@@ -49,8 +49,8 @@ const Aside = () => {
 
       <Link
         to="/settings"
-        className={`flex items-center font-medium rounded-2xl gap-2 p-2 ${
-          pathname.includes('settings') ? 'text-sky bg-white' : ''
+        className={`flex items-center font-medium rounded-xl gap-2 p-2 ${
+          pathname.includes('settings') ? 'text-sky bg-primary' : ''
         }`}
       >
         <CiSettings />

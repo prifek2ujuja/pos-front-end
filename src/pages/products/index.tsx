@@ -5,10 +5,11 @@ import useProductsTable from 'src/hooks/tableColumns/useProductsTable'
 import useListProducts from 'src/hooks/queries/useListProducts'
 import Auth from 'src/state/Auth'
 import { Product } from 'src/types'
+import { LoadingCard } from 'src/components/loading'
 
 const Index = () => {
   const tableColumns = useProductsTable()
-  const { data, isLoading } = useListProducts()
+  const { data, isLoading, isFetched, isError } = useListProducts()
   if (isLoading) {
     return <div>Loading</div>
   }
@@ -22,13 +23,19 @@ const Index = () => {
           </Link>
         )}
       </div>
-      <DataTable
-        columns={tableColumns}
-        data={data as Product[]}
-        isSearchable={true}
-        searchField="name"
-        searchFieldPlaceholder="Filter order"
-      />
+      {isLoading ? (
+        <LoadingCard />
+      ) : isError ? (
+        <div>error</div>
+      ) : isFetched ? (
+        <DataTable
+          columns={tableColumns}
+          data={data as Product[]}
+          isSearchable={false}
+          searchField="_id"
+          searchFieldPlaceholder="Filter order"
+        />
+      ) : null}
     </div>
   )
 }

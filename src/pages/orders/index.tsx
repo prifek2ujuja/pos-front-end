@@ -3,14 +3,12 @@ import DataTable from '../dashboard/components/DataTable'
 import { Link } from 'react-router-dom'
 import useListOrders from 'src/hooks/queries/useListOrders'
 import useOrdersTable from 'src/hooks/tableColumns/useOrdersTable'
-import Auth from 'src/state/Auth'
+import { LoadingCard } from 'src/components/loading'
 
 const Index = () => {
-  const { data: orders, isLoading: ordersIsLoading } = useListOrders()
+  const { data: orders, isLoading: ordersIsLoading, isError, isFetched } = useListOrders()
   const tableColumns = useOrdersTable()
-  if (ordersIsLoading) {
-    return <div>loading</div>
-  }
+
   return (
     <div className="p-2 bg-white rounded-2xl w-full">
       <div className="flex justify-between items-center">
@@ -20,13 +18,19 @@ const Index = () => {
         </Link>
       </div>
 
-      <DataTable
-        columns={tableColumns}
-        data={orders}
-        isSearchable={false}
-        searchField="_id"
-        searchFieldPlaceholder="Filter order"
-      />
+      {ordersIsLoading ? (
+        <LoadingCard />
+      ) : isError ? (
+        <div>error</div>
+      ) : isFetched ? (
+        <DataTable
+          columns={tableColumns}
+          data={orders}
+          isSearchable={false}
+          searchField="_id"
+          searchFieldPlaceholder="Filter order"
+        />
+      ) : null}
     </div>
   )
 }

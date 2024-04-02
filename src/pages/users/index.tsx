@@ -3,12 +3,12 @@ import useListUsers from 'src/hooks/queries/useListUsers'
 import useUsersTable from 'src/hooks/tableColumns/useUsersTable'
 import DataTable from '../dashboard/components/DataTable'
 import { Button } from 'src/components/ui/button'
-import { PacmanLoader } from 'react-spinners'
 import Auth from 'src/state/Auth'
+import { LoadingCard } from 'src/components/loading'
 
 const Users = () => {
   const tableColumns = useUsersTable()
-  const { data: users, isLoading: usersIsLoading } = useListUsers()
+  const { data: users, isLoading, isError, isFetched } = useListUsers()
 
   if (Auth.role.value !== 'admin' && Auth.role.value !== 'manager') {
     return <Navigate to="/dashboard" />
@@ -22,19 +22,20 @@ const Users = () => {
           <Button className="bg-sky text-sm">New user</Button>
         </Link>
       </div>
-      {usersIsLoading ? (
-        <div className="flex items-center justify-between h-40 w-full">
-          <PacmanLoader color="blue" />
-        </div>
-      ) : (
+
+      {isLoading ? (
+        <LoadingCard />
+      ) : isError ? (
+        <div>error</div>
+      ) : isFetched ? (
         <DataTable
           columns={tableColumns}
           data={users}
-          isSearchable={true}
-          searchField="userName"
-          searchFieldPlaceholder="Filter user"
+          isSearchable={false}
+          searchField="_id"
+          searchFieldPlaceholder="Filter order"
         />
-      )}
+      ) : null}
     </div>
   )
 }

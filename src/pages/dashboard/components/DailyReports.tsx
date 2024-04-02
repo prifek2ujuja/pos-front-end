@@ -1,6 +1,6 @@
 import dayjs from 'dayjs'
-import { BsDownload } from 'react-icons/bs'
-import { Link, useNavigate } from 'react-router-dom'
+import { RiFileDownloadFill } from 'react-icons/ri'
+import { useNavigate } from 'react-router-dom'
 import { PacmanLoader } from 'react-spinners'
 import { Button } from 'src/components/ui/button'
 import useListDailyReports from 'src/hooks/queries/useListDailyReports'
@@ -8,7 +8,6 @@ import { DailyReport } from 'src/types'
 
 const DailyReports = () => {
   const { data: reports, isLoading, isSuccess } = useListDailyReports()
-  console.log(reports)
   const navigate = useNavigate()
   return (
     <div className="rounded-2xl p-2 bg-white shadow-xl w-full">
@@ -21,12 +20,15 @@ const DailyReports = () => {
         <div>
           {reports.map((report: DailyReport) => (
             <div key={crypto.randomUUID()} className="flex justify-between items-center">
-              <Button onClick={() => navigate(`/report/${report.createdAt}`)}>
+              <Button
+                onClick={() => navigate(`/report/${report.createdAt}`)}
+                className="bg-light-gray text-primary hover:bg-light-gray shadow-none p-0 hover:text-sky hover:underline"
+              >
                 <p>{dayjs(report.createdAt).format('ddd D MMM YYYY')} </p>
               </Button>
 
-              <Button className="bg-light-gray">
-                <BsDownload />
+              <Button className="bg-light-gray text-sky hover:text-primary font-medium shadow-none hover:bg-light-gray">
+                <RiFileDownloadFill size={21} />
               </Button>
             </div>
           ))}
