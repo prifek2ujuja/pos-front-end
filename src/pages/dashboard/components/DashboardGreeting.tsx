@@ -22,7 +22,7 @@ const DashboardGreeting = () => {
     return 'Good evening'
   }
   return (
-    <div className="flex flex-col md:flex-col md:items-center md:justify-between gap-4 font-ff-poppins mb-8">
+    <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 font-ff-poppins mb-8">
       <div className="flex items-center gap-2">
         <h1 className="text-lg font-medium text-neutral-dark md:text-xl 2xl:text-2xl">
           {`${getTimeOfDay()} ${profile?.userName}`}

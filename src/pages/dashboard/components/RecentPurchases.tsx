@@ -11,14 +11,17 @@ const RecentPurchases = () => {
           <PacmanLoader color="#4E97FD" />
         </div>
       ) : isSuccess ? (
-        <div>
+        <div className="">
           {orders.map((order) => (
-            <div key={crypto.randomUUID()}>
-              <p>
+            <div key={crypto.randomUUID()} className="flex justify-between items-center">
+              <p className="flex flex-wrap gap-3 items-center">
                 {order.orderItems.map((item) => (
-                  <span key={crypto.randomUUID()}>{item.product.name}</span>
+                  <span key={crypto.randomUUID()}>
+                    {item.product.name} x {item.quantity}
+                  </span>
                 ))}
               </p>
+              <p className="text-green-500">ksh {order.orderTotal}</p>
             </div>
           ))}
         </div>

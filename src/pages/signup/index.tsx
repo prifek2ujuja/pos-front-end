@@ -20,6 +20,7 @@ const Index = () => {
               <h1 className="text-sky font-medium">Welcome to Juja wellness gallery</h1>
             )}
           </div>
+          <div>{!isAdmin && <p className=" font-medium">Create an admin account</p>}</div>
           <SignUpForm />
         </div>
       </div>

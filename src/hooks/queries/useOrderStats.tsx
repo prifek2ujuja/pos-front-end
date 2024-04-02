@@ -2,9 +2,9 @@ import { useQuery } from '@tanstack/react-query'
 import axios from 'src/api/axios'
 
 type Stat = {
-    _id: null,
-    totalValue: number,
-    totalOrders: number
+  _id: null
+  totalValue: number
+  totalOrders: number
 }
 
 type ResponseData = {

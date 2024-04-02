@@ -22,12 +22,12 @@ const DailyReports = () => {
             <div key={crypto.randomUUID()} className="flex justify-between items-center">
               <Button
                 onClick={() => navigate(`/report/${report.createdAt}`)}
-                className="bg-light-gray text-primary hover:bg-light-gray shadow-none p-0 hover:text-sky hover:underline"
+                className="bg-white text-primary hover:bg-white shadow-none p-0 hover:text-sky hover:underline"
               >
                 <p>{dayjs(report.createdAt).format('ddd D MMM YYYY')} </p>
               </Button>
 
-              <Button className="bg-light-gray text-sky hover:text-primary font-medium shadow-none hover:bg-light-gray">
+              <Button className="bg-white text-sky hover:text-primary font-medium shadow-none hover:bg-white">
                 <RiFileDownloadFill size={21} />
               </Button>
             </div>
