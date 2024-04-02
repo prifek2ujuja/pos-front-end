@@ -15,14 +15,16 @@ import { RadioGroup, RadioGroupItem } from 'src/components/ui/radio-group'
 import { useEffect, useState } from 'react'
 import useCreateOrder from 'src/hooks/mutations/useCreateOrder'
 import { PropagateLoader } from 'react-spinners'
-import { useLocation } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 import useEditOrder from 'src/hooks/mutations/useEditOrder'
-import { getHeaderLayout, getNoneLayout } from 'src/components/layout'
+import { getHeaderLayout } from 'src/components/layout'
+import { FaArrowLeft } from 'react-icons/fa'
 
 type FormValues = z.infer<typeof createOrderSchema>
 const Index = () => {
   const { data: products, isSuccess: productsIsSuccess } = useListProducts()
   const { state } = useLocation()
+  const navigate = useNavigate()
   const [paymentMode, setPaymentMode] = useState<string>(() => {
     if (state) {
       return state.paymentMode
@@ -101,9 +103,14 @@ const Index = () => {
     orderForm.reset()
   }
   return (
-    <div className="w-full p-2 md:p-4 poppins-regular">
-      <div className="mx-auto p-10 max-w-6xl">
-        <h1 className="text-xl font-medium mb-10">New sale</h1>
+    <div className="w-full poppins-regular">
+      <div className="mx-auto max-w-6xl">
+        <div className="flex gap-2 items-center mb-10">
+          <Button onClick={() => navigate(-1)} className="bg-light-gray shadow-none text-black">
+            <FaArrowLeft />
+          </Button>
+          <h1 className="text-xl font-medium">New sale</h1>
+        </div>
         <Form {...orderForm}>
           <form
             action=""

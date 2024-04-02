@@ -12,7 +12,7 @@ const Index = () => {
   return (
     <div className="p-2 bg-white rounded-2xl w-full">
       <div className="flex justify-between items-center">
-        <h1 className="my-5 font-medium">Orders</h1>
+        <h1 className="my-5 font-medium">Sales</h1>
         <Link to="/sell">
           <Button className="bg-sky text-sm">New order</Button>
         </Link>

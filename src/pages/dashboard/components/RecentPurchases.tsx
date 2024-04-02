@@ -1,5 +1,6 @@
 import useListRecentOrders from 'src/hooks/queries/useListRecentOrders'
 import { PacmanLoader } from 'react-spinners'
+import { GiCash } from 'react-icons/gi'
 
 const RecentPurchases = () => {
   const { data: orders, isLoading: ordersIsLoading, isSuccess } = useListRecentOrders()
@@ -21,7 +22,13 @@ const RecentPurchases = () => {
                   </span>
                 ))}
               </p>
-              <p className="text-green-500">ksh {order.orderTotal}</p>
+              <p className="flex items-center">
+                {' '}
+                <span className="text-green-500">
+                  <GiCash className="text-sky" size={21} />
+                </span>
+                ksh {order.orderTotal}
+              </p>
             </div>
           ))}
         </div>

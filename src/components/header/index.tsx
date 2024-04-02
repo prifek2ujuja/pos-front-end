@@ -1,28 +1,17 @@
-import React, { ReactNode } from 'react'
-import { LanguageSelector } from '../language-selector'
 import { Button } from '../ui/button'
-import { useTranslation } from 'react-i18next'
 import { faker } from '@faker-js/faker'
 import logo from 'src/assets/logo.jpg'
-import { Link, Navigate } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom'
 import Auth from 'src/state/Auth'
-import { MdLogout } from 'react-icons/md'
+import { MdLogout, MdLogin } from 'react-icons/md'
 import useLogout from 'src/hooks/mutations/useLogout'
 import { ClipLoader } from 'react-spinners'
 
-interface IProps {
-  leftNode?: ReactNode
-}
-
-export function Header(props: IProps) {
-  const { t } = useTranslation()
-  const { authenticated, avatar } = Auth
+export function Header() {
+  const { avatar, authenticated } = Auth
+  const { pathname } = useLocation()
 
   const { mutate: logout, isLoading } = useLogout()
-
-  if (!authenticated.value) {
-    return <Navigate to="/login" />
-  }
 
   return (
     <div className="left-0 top-0 flex w-full items-start justify-between py-4  md:mb-10 lg:mb-16">
@@ -34,21 +23,34 @@ export function Header(props: IProps) {
           </h1>
         </div>
       </Link>
-      <div className="flex items-center gap-2 md:gap-4">
-        <LanguageSelector />
+      {authenticated.value ? (
+        <div className="flex items-center gap-2 md:gap-4">
+          {/* <LanguageSelector /> */}
 
-        <img
-          src={avatar.value || faker.image.avatar()}
-          alt="avatar"
-          className="h-10 md:h-12  w-10 md:w-12 rounded-full"
-        />
-        <Button
-          onClick={() => logout()}
-          className="text-xl bg-light-gray border-none shadow-none text-black hover:bg-light-gray hover:text-sky"
-        >
-          {isLoading ? <ClipLoader color="#4E97FD" size={19} /> : <MdLogout />}
-        </Button>
-      </div>
+          <img
+            src={avatar.value || faker.image.avatar()}
+            alt="avatar"
+            className="h-10 md:h-12  w-10 md:w-12 rounded-full"
+          />
+          <Button
+            onClick={() => logout()}
+            className="font-medium bg-light-gray flex gap-2 border-none shadow-none text-black hover:bg-light-gray hover:text-sky"
+          >
+            <p className="text-base">Sign out</p>
+            {isLoading ? <ClipLoader color="#4E97FD" size={19} /> : <MdLogout />}
+          </Button>
+        </div>
+      ) : !pathname.includes('login') ? (
+        <div className="flex items-center gap-2 md:gap-4">
+          {/* <LanguageSelector /> */}
+          <Link to="/login" className="flex items-center hover:text-sky">
+            <Button className="font-medium bg-light-gray border-none shadow-none text-black hover:text-sky  hover:bg-light-gray ">
+              Sign in
+            </Button>
+            <MdLogin size={19} color="#4E97FD" />
+          </Link>
+        </div>
+      ) : null}
     </div>
   )
 }

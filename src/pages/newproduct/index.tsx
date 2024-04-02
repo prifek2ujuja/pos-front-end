@@ -58,7 +58,7 @@ const Index = () => {
   }
   return (
     <div className="w-full poppins-regular">
-      <div className="mx-auto p-10 max-w-6xl">
+      <div className="mx-auto max-w-6xl">
         <div className="flex gap-2 items-center mb-10">
           <Button onClick={() => navigate(-1)} className="bg-light-gray shadow-none text-black">
             <FaArrowLeft />

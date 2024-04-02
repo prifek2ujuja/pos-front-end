@@ -47,7 +47,7 @@ function DataTable<TData, TValue>({
   })
 
   return (
-    <div className="">
+    <div className="p-0 m-0">
       <div className="flex items-center">
         {isSearchable && searchField && (
           <div className="border relative mb-4 bg-card border-white rounded-md flex items-center">
@@ -62,9 +62,9 @@ function DataTable<TData, TValue>({
         )}
       </div>
       <Table className="rounded-2xl">
-        <TableHeader>
+        <TableHeader className="p-0 m-0">
           {table.getHeaderGroups().map((headerGroup) => (
-            <TableRow key={headerGroup.id}>
+            <TableRow key={headerGroup.id} className="p-0 m-0">
               {headerGroup.headers.map((header) => {
                 return (
                   <TableHead key={header.id} className="text-left">
