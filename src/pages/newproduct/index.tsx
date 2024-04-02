@@ -80,7 +80,7 @@ const Index = () => {
                   <FormItem className="mb-4 w-full">
                     <FormLabel className="mb-2">Product name</FormLabel>
                     <FormControl>
-                      <Input placeholder="John" {...field} />
+                      <Input placeholder="Prostemcell" {...field} />
                     </FormControl>
                     <FormDescription>Product name.</FormDescription>
                     <FormMessage />
@@ -117,7 +117,7 @@ const Index = () => {
                     <FormControl>
                       <Input
                         type="number"
-                        placeholder="5000"
+                        placeholder="25"
                         {...field}
                         onChange={(e) => field.onChange(parseInt(e.target.value))}
                       />

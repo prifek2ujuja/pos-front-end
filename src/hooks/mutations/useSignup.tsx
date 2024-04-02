@@ -2,6 +2,8 @@ import { useMutation } from '@tanstack/react-query'
 import axios from 'src/api/axios'
 import toast from 'react-hot-toast'
 import { useNavigate } from 'react-router-dom'
+import { AxiosError } from 'axios'
+import { ErrorResponse } from 'src/types'
 
 type SubmitData = {
   userName: string
@@ -23,8 +25,9 @@ const useSignup = () => {
       toast.success('Account created. You can now login')
       navigate('/login')
     },
-    onError: () => {
-      toast.error('Unable to create account')
+    onError: (e: AxiosError) => {
+      const errorResponse = e.response?.data as ErrorResponse
+      toast.error(errorResponse.message)
     },
   })
 }

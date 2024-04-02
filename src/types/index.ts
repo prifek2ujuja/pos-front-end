@@ -60,3 +60,7 @@ export type DailyReport = {
   createdAt: string
   productsReport: DailyProductReport[]
 }
+
+export type ErrorResponse = {
+  message: string
+}

@@ -1,6 +1,8 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query'
+import { AxiosError } from 'axios'
 import toast from 'react-hot-toast'
-import axios from 'axios'
+import { ErrorResponse } from 'src/types'
+import axios from 'src/api/axios'
 
 type SubmitData = {
   productPrice: number
@@ -13,7 +15,7 @@ const useCreateProduct = () => {
   const queryClient = useQueryClient()
   return useMutation({
     mutationFn: async (data: SubmitData) => {
-      const response = await axios.post('http://localhost:3000/api/products', data, {
+      const response = await axios.post('/products', data, {
         headers: {
           'Content-Type': 'application/json',
         },
@@ -24,8 +26,9 @@ const useCreateProduct = () => {
       toast.success('New product saved')
       queryClient.invalidateQueries(['products'])
     },
-    onError: () => {
-      toast.success('Unable to save product')
+    onError: (e: AxiosError) => {
+      const errorResponse = e.response?.data as ErrorResponse
+      toast.error(errorResponse.message)
     },
   })
 }

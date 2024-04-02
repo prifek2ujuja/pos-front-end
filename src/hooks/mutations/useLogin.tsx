@@ -3,6 +3,8 @@ import axios from 'src/api/axios'
 import toast from 'react-hot-toast'
 import Auth from 'src/state/Auth'
 import { useNavigate } from 'react-router-dom'
+import { AxiosError } from 'axios'
+import { ErrorResponse } from 'src/types'
 
 type SubmitData = {
   password: string
@@ -30,8 +32,9 @@ const useLogin = () => {
       toast.success('Logged in')
       navigate('/dashboard')
     },
-    onError: () => {
-      toast.error('Unable to login. Please check your credentials and try again')
+    onError: (e: AxiosError) => {
+      const errorResponse = e.response?.data as ErrorResponse
+      toast.error(errorResponse.message)
     },
   })
 }

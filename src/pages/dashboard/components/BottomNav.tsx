@@ -1,5 +1,5 @@
 import React from 'react'
-import { CiSettings, CiWallet } from 'react-icons/ci'
+import { CiPillsBottle1, CiSettings, CiWallet } from 'react-icons/ci'
 import { MdOutlineDashboard } from 'react-icons/md'
 import { TbUsersGroup } from 'react-icons/tb'
 import { Link, useLocation } from 'react-router-dom'
@@ -23,7 +23,7 @@ const BottomNav = () => {
           pathname === '/products' ? 'text-sky bg-primary' : ''
         }`}
       >
-        <CiWallet className="text-2xl" />
+        <CiPillsBottle1 className="text-2xl" />
         <p className="hidden md:text-xs">Products</p>
       </Link>
       <Link
