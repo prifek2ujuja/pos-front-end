@@ -6,7 +6,7 @@ export const Hero = () => {
     <div className="flex bg-light-gray poppins-regular w-full">
       <div className="flex flex-col items-center mx-auto h-full w-full mt-32">
         <h1 className="text-2xl lg:text-4xl font-bold text-center dancing-bold">
-          Welcome to Juja wellness gallery pos
+          Welcome to Juja wellness gallery POS
         </h1>
         <div className="flex items-center gap-2 mt-4">
           <Link to="/login">

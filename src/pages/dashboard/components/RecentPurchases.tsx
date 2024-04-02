@@ -22,10 +22,10 @@ const RecentPurchases = () => {
                   </span>
                 ))}
               </p>
-              <p className="flex items-center">
+              <p className="flex items-center gap-3">
                 {' '}
-                <span className="text-green-500">
-                  <GiCash className="text-sky" size={21} />
+                <span className="">
+                  <GiCash className="text-green-500" size={21} />
                 </span>
                 ksh {order.orderTotal}
               </p>

@@ -57,8 +57,8 @@ const SignInForm = () => {
             )}
           />
 
-          <div className="my-10 flex flex-col items-center md:flex-row gap-4">
-            {loginIsLoading && <PropagateLoader color="black" />}
+          <div className="my-10 flex flex-col  items-center  gap-6">
+            {loginIsLoading && <PropagateLoader color="#4E97FD" />}
             <Button type="submit" className="w-full bg-sky flex items-center " disabled={loginIsLoading}>
               Sign in
             </Button>
