@@ -6,7 +6,7 @@ const useDailyReportTable = () => {
   const tableColumns: ColumnDef<DailyProductReport>[] = [
     {
       accessorKey: 'product',
-      header: () => <p className="text-sm md:text-base text-gray font-semibold">Product</p>,
+      header: () => <p className="text-sm md:text-base text-primary font-semibold">Product</p>,
       cell: ({ row }) => {
         const product: string = row.getValue('product')
         return (
@@ -18,7 +18,7 @@ const useDailyReportTable = () => {
     },
     {
       accessorKey: 'openingStock',
-      header: () => <p className="text-sm md:text-base text-gray font-semibold">Opening stock</p>,
+      header: () => <p className="text-sm md:text-base text-primary font-semibold">Opening stock</p>,
       cell: ({ row }) => {
         const openingStock: string = row.getValue('openingStock')
         return (
@@ -30,7 +30,7 @@ const useDailyReportTable = () => {
     },
     {
       accessorKey: 'closingStock',
-      header: () => <p className="text-sm md:text-base text-gray font-semibold">Closing stock</p>,
+      header: () => <p className="text-sm md:text-base text-primary font-semibold">Closing stock</p>,
       cell: ({ row }) => {
         const closingStock: string = row.getValue('closingStock')
         return (
@@ -42,7 +42,7 @@ const useDailyReportTable = () => {
     },
     {
       accessorKey: 'addedStock',
-      header: () => <p className="text-sm md:text-base text-gray font-semibold">Added stock</p>,
+      header: () => <p className="text-sm md:text-base text-primary font-semibold">Added stock</p>,
       cell: ({ row }) => {
         const addedStock: string = row.getValue('addedStock')
         return (
@@ -54,7 +54,7 @@ const useDailyReportTable = () => {
     },
     {
       accessorKey: 'sales',
-      header: () => <p className="text-sm md:text-base text-gray font-semibold">Sales</p>,
+      header: () => <p className="text-sm md:text-base text-primary font-semibold">Sales</p>,
       cell: ({ row }) => {
         const sales: string = row.getValue('sales')
         return (
@@ -66,7 +66,7 @@ const useDailyReportTable = () => {
     },
     {
       accessorKey: 'createdAt',
-      header: () => <p className="text-sm md:text-base text-gray font-semibold">Date</p>,
+      header: () => <p className="text-sm md:text-base text-primary font-semibold">Date</p>,
       cell: ({ row }) => {
         const date: string = row.getValue('createdAt')
         return <p className="text-sm">{dayjs(date).format('YYYY-MM-DD')}</p>

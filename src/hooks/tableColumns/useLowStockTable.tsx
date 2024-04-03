@@ -31,7 +31,7 @@ const useLowStockTable = () => {
       header: () => <p></p>,
       cell: ({ row }) => {
         const productImage: string = row.getValue('productImage')
-        return <img src={productImage} alt="product-image" className="h-10 w-10 rounded-full" />
+        return <img src={productImage} alt="product-image" className="text-sm md:text-base h-10 w-10 rounded-full" />
       },
     },
     {
