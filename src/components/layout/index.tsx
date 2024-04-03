@@ -10,7 +10,7 @@ export const getNoneLayout = (page: React.ReactElement) => page
 export const getHeaderLayout = (page: React.ReactElement) => {
   return (
     <Suspense fallback={<PropagateLoader color="blue" />}>
-      <div className="min-h-screen relative border poppins-regular  bg-light-gray p-4 md:p-0">
+      <div className="min-h-screen relative border poppins-regular  bg-light-gray p-2 md:p-0">
         <div className="max-w-7xl mx-auto">
           <Header />
           <div className="flex mx-auto">{page}</div>
@@ -23,7 +23,7 @@ export const getHeaderLayout = (page: React.ReactElement) => {
 export const getDefaultLayout = (page: React.ReactElement) => {
   return (
     <Suspense fallback={<PropagateLoader color="blue" />}>
-      <div className="min-h-screen relative border poppins-regular bg-light-gray p-4 md:p-0">
+      <div className="min-h-screen relative border poppins-regular bg-light-gray p-2 md:p-0">
         <div className="max-w-7xl mx-auto sm:px-4">
           <Header />
           <LoginRedirect />

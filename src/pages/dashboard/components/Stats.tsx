@@ -13,8 +13,8 @@ const Stats = () => {
           <p className="font-medium text-sm md:text-base">Sales today</p>
           {statsIsLoading ? (
             <>
-              <Skeleton className="w-[150px] md:w-[200px] h-4 bg-sky " />
-              <Skeleton className="w-[100px] md:w-[150px] h-4 bg-sky" />
+              <Skeleton className="w-[100px] md:w-[200px] h-4 bg-sky " />
+              <Skeleton className="w-[80px] md:w-[150px] h-4 bg-sky" />
             </>
           ) : isSuccess ? (
             <div className="flex flex-col lg:flex-row md:gap-4 lg:items-center w-full">
@@ -34,8 +34,8 @@ const Stats = () => {
           <p className="font-medium text-sm md:text-base">Sales this week</p>
           {statsIsLoading ? (
             <>
-              <Skeleton className="w-[150px] md:w-[200px] h-4 bg-sky " />
-              <Skeleton className="w-[100px] md:w-[150px] h-4 bg-sky" />
+              <Skeleton className="w-[100px] md:w-[200px] h-4 bg-sky " />
+              <Skeleton className="w-[80px] md:w-[150px] h-4 bg-sky" />
             </>
           ) : isSuccess ? (
             <div className="flex flex-col lg:flex-row md:gap-4 lg:items-center w-full">
@@ -55,8 +55,8 @@ const Stats = () => {
           <p className="font-medium text-sm md:text-base">All time sales</p>
           {statsIsLoading ? (
             <>
-              <Skeleton className="w-[150px] md:w-[200px] h-4 bg-sky " />
-              <Skeleton className="w-[100px] md:w-[150px] h-4 bg-sky" />
+              <Skeleton className="w-[100px] md:w-[200px] h-4 bg-sky " />
+              <Skeleton className="w-[80px] md:w-[150px] h-4 bg-sky" />
             </>
           ) : isSuccess ? (
             <div className="flex flex-col lg:flex-row md:gap-4 lg:items-center w-full">
