@@ -48,22 +48,22 @@ const EditStock = ({ productId, stock, productName }: Props) => {
           <FaEdit />
         </Button>
       </PopoverTrigger>
-      <PopoverContent className="w-80">
+      <PopoverContent className="w-80 ">
         <Form {...editStockForm}>
           <form
-            className="p-2 rounded-2xl bg-white shadow-2xl md:p-4"
+            className="p-2 rounded-2xl bg-white shadow-2xl h-72 md:p-4"
             action=""
             onSubmit={editStockForm.handleSubmit(onFormSubmitReady)}
           >
             <div className="mb-3">
-              <h1 className="text-base md:text-lg font-medium">Edit {productName} stock</h1>
+              <h1 className="text-base font-medium">Edit {productName} stock</h1>
             </div>
             <FormField
               control={editStockForm.control}
               name="action"
               render={({ field }) => (
-                <FormItem className="mb-3">
-                  <FormLabel>Select an action</FormLabel>
+                <FormItem className="mb-3 flex flex-col gap-2">
+                  <FormLabel>Would you like to add or remove stock?</FormLabel>
                   <FormControl className="m-0">
                     <RadioGroup
                       className="flex space-x-2"
@@ -103,6 +103,7 @@ const EditStock = ({ productId, stock, productName }: Props) => {
                       placeholder="21"
                       {...field}
                       onChange={(e) => field.onChange(parseInt(e.target.value))}
+                      className="focus:border-none"
                     />
                   </FormControl>
                   <FormDescription>The amount of sock to remove or add.</FormDescription>
@@ -110,14 +111,15 @@ const EditStock = ({ productId, stock, productName }: Props) => {
                 </FormItem>
               )}
             />
-            <div className="m2-10">
+            <div className="mt-7 flex flex-col justify-between gap-4 items-center">
               {/* <h1 className="text-gray font-medium mb-4">Payment</h1> */}
+              {editProductIsLoading && <PropagateLoader color="#4E97FD" />}
               <Button
                 disabled={editProductIsLoading || !editStockForm.formState.isDirty}
                 type="submit"
-                className="w-full bg-sky flex items-center"
+                className="w-full bg-sky flex items-center border-sky"
               >
-                {editProductIsLoading ? <PropagateLoader color="#36d7b7" /> : 'Save'}
+                Save
               </Button>
               {/* <Button
                 type="button"

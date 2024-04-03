@@ -3,9 +3,10 @@ import useProductsTable from 'src/hooks/tableColumns/useProductsTable'
 import useLowStock from 'src/hooks/queries/useLowStock'
 import { LuHeartPulse } from 'react-icons/lu'
 import { Product } from 'src/types'
+import useLowStockTable from 'src/hooks/tableColumns/useLowStockTable'
 
 const StockOutput = () => {
-  const tableColumns = useProductsTable()
+  const tableColumns = useLowStockTable()
   const { data, isLoading } = useLowStock()
   if (isLoading) {
     return <div>Loading</div>

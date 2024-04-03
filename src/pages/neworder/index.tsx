@@ -5,12 +5,10 @@ import { createOrderSchema } from 'src/schemas/index'
 import { zodResolver } from '@hookform/resolvers/zod'
 import * as z from 'zod'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from 'src/components/ui/select'
-import { IoIosAdd } from 'react-icons/io'
 import { useForm } from 'react-hook-form'
 import useListProducts from 'src/hooks/queries/useListProducts'
 import { useHookstate } from '@hookstate/core'
 import { OrderItem, Product } from 'src/types'
-import { FaMinus } from 'react-icons/fa6'
 import { RadioGroup, RadioGroupItem } from 'src/components/ui/radio-group'
 import { useEffect, useState } from 'react'
 import useCreateOrder from 'src/hooks/mutations/useCreateOrder'
@@ -19,6 +17,7 @@ import { useLocation, useNavigate } from 'react-router-dom'
 import useEditOrder from 'src/hooks/mutations/useEditOrder'
 import { getHeaderLayout } from 'src/components/layout'
 import { FaArrowLeft } from 'react-icons/fa'
+import { FiMinusSquare, FiPlusSquare } from 'react-icons/fi'
 
 type FormValues = z.infer<typeof createOrderSchema>
 const Index = () => {
@@ -106,54 +105,61 @@ const Index = () => {
     <div className="w-full poppins-regular">
       <div className="mx-auto max-w-6xl">
         <div className="flex gap-2 items-center mb-10">
-          <Button onClick={() => navigate(-1)} className="bg-light-gray shadow-none text-black">
+          <Button
+            onClick={() => navigate(-1)}
+            className="bg-light-gray shadow-none text-black hover:bg-light-gray hover:text-sky"
+          >
             <FaArrowLeft />
           </Button>
-          <h1 className="text-xl font-medium">New sale</h1>
+          <h1 className="text-lg font-medium">New sale</h1>
         </div>
+
         <Form {...orderForm}>
           <form
             action=""
             onSubmit={orderForm.handleSubmit(onFormReadySubmit)}
-            className="p-2 rounded-2xl bg-white shadow-xl md:p-4 lg-p-8"
+            className="p-2 rounded-2xl bg-white shadow-xl md:p-4"
           >
-            <h1 className="font-medium mb-2">Customer information (optional)</h1>
-            <div className="flex flex-col md:flex-row mb-4 gap-4">
-              <FormField
-                control={orderForm.control}
-                name="customerName"
-                render={({ field }) => (
-                  <FormItem className="mb-4 w-full">
-                    <FormLabel className="mb-2">Name</FormLabel>
-                    <FormControl>
-                      <Input placeholder="John" {...field} />
-                    </FormControl>
-                    <FormDescription>Customers name.</FormDescription>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={orderForm.control}
-                name="customerPhone"
-                render={({ field }) => (
-                  <FormItem className="mb-4 w-full focus:outline-sky">
-                    <FormLabel>Phone number</FormLabel>
-                    <FormControl>
-                      <Input
-                        placeholder="07819183623"
-                        {...field}
-                        className="placeholder:text-gray    focus:outline-none"
-                      />
-                    </FormControl>
-                    <FormDescription>Customers phone number.</FormDescription>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
+            <div className="flex flex-col gap-3 mb-3">
+              <h1 className="font-medium">Customer information (optional)</h1>
+              <div className="flex flex-col md:flex-row gap-4">
+                <FormField
+                  control={orderForm.control}
+                  name="customerName"
+                  render={({ field }) => (
+                    <FormItem className="mb-4 w-full">
+                      <FormLabel className="mb-2">Name</FormLabel>
+                      <FormControl>
+                        <Input placeholder="John" {...field} className="focus:border-none" />
+                      </FormControl>
+                      <FormDescription>Customers name.</FormDescription>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={orderForm.control}
+                  name="customerPhone"
+                  render={({ field }) => (
+                    <FormItem className="mb-4 w-full focus:outline-sky">
+                      <FormLabel>Phone number</FormLabel>
+                      <FormControl>
+                        <Input
+                          placeholder="07819183623"
+                          {...field}
+                          className="  focus:border-none  focus:outline-none"
+                        />
+                      </FormControl>
+                      <FormDescription>Customers phone number.</FormDescription>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
             </div>
-            <div className="">
-              <h1 className="mb-2 text-black font-medium">Order items</h1>
+
+            <div className="flex flex-col gap-3">
+              <h1 className="text-black font-medium">Order items</h1>
               {/* Product list */}
               <div className="flex flex-col">
                 <FormLabel className="mb-2">Select items</FormLabel>
@@ -162,14 +168,14 @@ const Index = () => {
                     addToCart(JSON.parse(val))
                   }}
                 >
-                  <SelectTrigger className="w-full">
+                  <SelectTrigger className="w-full focus:border-none">
                     <SelectValue placeholder="Product" />
                   </SelectTrigger>
-                  <SelectContent>
+                  <SelectContent className="poppins-regular">
                     {productsIsSuccess &&
                       products.map((product) => (
                         <SelectItem key={crypto.randomUUID()} value={JSON.stringify(product)}>
-                          <div className="flex gap-2">
+                          <div className="flex gap-4 items-center">
                             <img
                               src={product.productImage}
                               alt={`${product.name}-image`}
@@ -197,17 +203,17 @@ const Index = () => {
                         <Button
                           onClick={() => addToCart(item.product)}
                           type="button"
-                          className="rounded-full w-10 p-0  h-10 bg-sky border border-sky"
+                          className="rounded-full border-none w-10 p-0 shadow-none h-10  border bg-white hover:bg-white"
                         >
-                          <IoIosAdd className="text-2xl" />
+                          <FiPlusSquare className="text-2xl text-sky" size={30} />
                         </Button>
-                        <p className="text-gray font-bold">{item.quantity}</p>
+                        <p className="font-medium text-lg">{item.quantity}</p>
                         <Button
                           onClick={() => removeFromCart(item.product._id)}
                           type="button"
-                          className="rounded-full w-10 p-0  h-10 bg-sky border border-sky"
+                          className="rounded-full border-none w-10 p-0 shadow-none h-10  border bg-white hover:bg-white"
                         >
-                          <FaMinus className="text-xl" />
+                          <FiMinusSquare className="text-2xl text-sky" size={30} />
                         </Button>
                       </div>
                     </div>
@@ -257,7 +263,7 @@ const Index = () => {
                     <FormItem className="my-4 w-full">
                       <FormLabel className="mb-2">Transaction code</FormLabel>
                       <FormControl>
-                        <Input placeholder="SFCFRGLSFC" {...field} />
+                        <Input className="focus:border-none" placeholder="SFCFRGLSFC" {...field} />
                       </FormControl>
                       <FormDescription>Ref code.</FormDescription>
                       <FormMessage />

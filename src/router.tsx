@@ -1,4 +1,4 @@
-import { RouteObject, createBrowserRouter } from 'react-router-dom'
+import { Route, RouteObject, createBrowserRouter } from 'react-router-dom'
 import ErrorPage from './components/error-page'
 import { getDefaultLayout } from './components/layout'
 import HomePage from './pages/home'
@@ -64,6 +64,8 @@ export const routerObjects: RouteObject[] = [
     Component: Report,
   },
 ]
+
+// const createBrowserRouter = routerObjects.map((route) => (<Route>))
 
 export function createRouter(): ReturnType<typeof createBrowserRouter> {
   const routeWrappers = routerObjects.map((router) => {

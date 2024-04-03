@@ -5,7 +5,6 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import * as z from 'zod'
 import { useForm } from 'react-hook-form'
 import { createProductSchema } from 'src/schemas'
-import { MdAddAPhoto } from 'react-icons/md'
 import { Button } from 'src/components/ui/button'
 import { Textarea } from 'src/components/ui/textarea'
 import useCreateProduct from 'src/hooks/mutations/useCreateProduct'
@@ -60,10 +59,13 @@ const Index = () => {
     <div className="w-full poppins-regular">
       <div className="mx-auto max-w-6xl">
         <div className="flex gap-2 items-center mb-10">
-          <Button onClick={() => navigate(-1)} className="bg-light-gray shadow-none text-black">
+          <Button
+            onClick={() => navigate(-1)}
+            className="bg-light-gray shadow-none text-black hover:bg-light-gray hover:text-sky"
+          >
             <FaArrowLeft />
           </Button>
-          <h1 className="text-xl font-medium">Add product</h1>
+          <h1 className="text-lg font-medium">New product</h1>
         </div>
 
         <Form {...orderForm}>
@@ -80,7 +82,7 @@ const Index = () => {
                   <FormItem className="mb-4 w-full">
                     <FormLabel className="mb-2">Product name</FormLabel>
                     <FormControl>
-                      <Input placeholder="Prostemcell" {...field} />
+                      <Input placeholder="Prostemcell" {...field} className="focus:border-none" />
                     </FormControl>
                     <FormDescription>Product name.</FormDescription>
                     <FormMessage />
@@ -97,6 +99,7 @@ const Index = () => {
                       <Input
                         type="number"
                         placeholder="5000"
+                        className="focus:border-none"
                         {...field}
                         onChange={(e) => field.onChange(parseInt(e.target.value))}
                       />
@@ -118,6 +121,7 @@ const Index = () => {
                       <Input
                         type="number"
                         placeholder="25"
+                        className="focus:border-none"
                         {...field}
                         onChange={(e) => field.onChange(parseInt(e.target.value))}
                       />
@@ -136,7 +140,7 @@ const Index = () => {
                   <FormItem className="mb-4 w-full">
                     <FormLabel>Product description</FormLabel>
                     <FormControl>
-                      <Textarea {...field} />
+                      <Textarea {...field} className="focus:border-none" />
                     </FormControl>
                     <FormDescription>Product description.</FormDescription>
                     <FormMessage />
@@ -144,7 +148,7 @@ const Index = () => {
                 )}
               />
             </div>
-            <div>
+            {/* <div>
               <FormItem className="mb-4 w-full">
                 <FormLabel>Product image</FormLabel>
                 <FormControl>
@@ -169,7 +173,7 @@ const Index = () => {
                 <FormDescription>Product image.</FormDescription>
                 <FormMessage />
               </FormItem>
-            </div>
+            </div> */}
 
             <div className="my-10 flex flex-col md:flex-row gap-4">
               {/* <h1 className="text-gray font-medium mb-4">Payment</h1> */}
