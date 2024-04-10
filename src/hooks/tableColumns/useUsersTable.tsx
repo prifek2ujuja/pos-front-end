@@ -17,7 +17,7 @@ const useUsersTable = () => {
     },
     {
       accessorKey: 'userName',
-      header: () => <p>User name</p>,
+      header: () => <p className="text-sm md:text-base text-primary font-semibold">User name</p>,
       cell: ({ row }) => {
         const userName: string = row.getValue('userName')
         return <p className="text-sm">{userName}</p>
@@ -25,7 +25,7 @@ const useUsersTable = () => {
     },
     {
       accessorKey: 'phoneNumber',
-      header: () => <p className="text-sm md:text-base text-gray font-semibold">Product</p>,
+      header: () => <p className="text-sm md:text-base text-primary font-semibold">Product</p>,
       cell: ({ row }) => {
         const phoneNumber: string = row.getValue('phoneNumber')
         return <p className="text-sm">{phoneNumber}</p>
@@ -33,7 +33,7 @@ const useUsersTable = () => {
     },
     {
       accessorKey: 'email',
-      header: () => <p className="text-sm md:text-base text-gray font-semibold">Email</p>,
+      header: () => <p className="text-sm md:text-base text-primary font-semibold">Email</p>,
       cell: ({ row }) => {
         const email: string = row.getValue('email')
         return <p className="text-sm">{email}</p>
@@ -41,7 +41,7 @@ const useUsersTable = () => {
     },
     {
       accessorKey: 'role',
-      header: () => <p className="text-sm md:text-base text-gray font-semibold">Role</p>,
+      header: () => <p className="text-sm md:text-base text-primary font-semibold">Role</p>,
       cell: ({ row }) => {
         const role: string = row.getValue('role')
         return <p className="text-sm">{role}</p>
@@ -49,7 +49,7 @@ const useUsersTable = () => {
     },
     {
       accessorKey: 'status',
-      header: () => <p className="text-sm md:text-base text-gray font-semibold">Status</p>,
+      header: () => <p className="text-sm md:text-base text-primary font-semibold">Status</p>,
       cell: ({ row }) => {
         const status: string = row.getValue('status')
         return <p className="text-sm">{status}</p>
@@ -58,7 +58,7 @@ const useUsersTable = () => {
 
     {
       accessorKey: '_id',
-      header: () => <p className="text-sm md:text-base text-gray font-semibold">Action</p>,
+      header: () => <p className="text-sm md:text-base text-primary font-semibold">Action</p>,
       cell: ({ row }) => {
         const id: string = row.getValue('_id')
         const role: string = row.getValue('role')

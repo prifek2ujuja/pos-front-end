@@ -9,6 +9,8 @@ type SubmitData = {
   productName: string
   productDescription: string
   stock: number
+  imageUrl: string
+  imagePath: string
 }
 
 const useCreateProduct = () => {

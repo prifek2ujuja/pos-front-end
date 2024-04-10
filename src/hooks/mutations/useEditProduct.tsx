@@ -7,10 +7,12 @@ import { ErrorResponse } from 'src/types'
 type SubmitData = {
   productId: string
   data: {
-    productName?: string
-    productDescription?: string
-    productPrice?: number
+    name?: string
+    description?: string
+    price?: number
     stock?: number
+    imageUrl?: string
+    imagePath?: string
   }
 }
 

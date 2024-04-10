@@ -2,14 +2,29 @@ import { useQuery } from '@tanstack/react-query'
 import axios from 'src/api/axios'
 
 type ResponseData = {
-  _id: {
-    year: number
-    month: number
-  }
-  total: number
+  // _id: {
+  //   year: number
+  //   month: number
+  // }
+  // total: number
+  ordersTotalByDay: {
+    _id: number
+    total: number
+  }[]
+  ordersTotalByMonth: {
+    _id: {
+      year: number
+      month: number
+    }
+    total: number
+  }[]
+  ordersTotalByYear: {
+    _id: number
+    total: number
+  }[]
 }
 const useOrdersGraphData = () => {
-  return useQuery<ResponseData[]>({
+  return useQuery<ResponseData>({
     queryKey: ['orders', 'graph'],
     queryFn: async () => {
       const response = await axios('orders/trends')

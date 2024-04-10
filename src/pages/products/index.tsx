@@ -10,6 +10,7 @@ import { LoadingCard } from 'src/components/loading'
 const Index = () => {
   const tableColumns = useProductsTable()
   const { data, isLoading, isFetched, isError } = useListProducts()
+  console.log(data)
   return (
     <div className="p-2 bg-white rounded-2xl w-full">
       <div className="flex justify-between items-center">

@@ -27,16 +27,18 @@ const useProductsTable = () => {
 
   const tableColumns: ColumnDef<Product>[] = [
     {
-      accessorKey: 'productImage',
+      accessorKey: 'productImages',
       header: () => <p></p>,
       cell: ({ row }) => {
-        const productImage: string = row.getValue('productImage')
-        return <img src={productImage} alt="product-image" className="h-10 w-10 rounded-full" />
+        const productImages: { imagePath: string; imageUrl: string }[] = row.getValue('productImages')
+        const productAvatar = 'https://avatars.githubusercontent.com/u/62663992'
+        const source = productImages.length > 0 ? productImages[0].imageUrl : productAvatar
+        return <img src={source} alt="product-image" className="h-10 w-10 rounded-full" />
       },
     },
     {
       accessorKey: 'name',
-      header: () => <p className="text-sm md:text-base text-gray font-semibold">Product</p>,
+      header: () => <p className="text-sm md:text-base text-primary font-semibold">Product</p>,
       cell: ({ row }) => {
         const product: string = row.getValue('name')
         return <p className="text-sm">{product}</p>
@@ -44,7 +46,7 @@ const useProductsTable = () => {
     },
     {
       accessorKey: 'price',
-      header: () => <p className="text-sm md:text-base text-gray font-semibold">Price</p>,
+      header: () => <p className="text-sm md:text-base text-primary font-semibold">Price</p>,
       cell: ({ row }) => {
         const price: string = row.getValue('price')
         return <p className="text-sm">ksh {price}</p>
@@ -52,7 +54,7 @@ const useProductsTable = () => {
     },
     {
       accessorKey: 'stock',
-      header: () => <p className="text-sm md:text-base text-gray font-semibold">Stock</p>,
+      header: () => <p className="text-sm md:text-base text-primary font-semibold">Stock</p>,
       cell: ({ row }) => {
         const stock: string = row.getValue('stock')
         const productId: string = row.getValue('_id')
@@ -69,21 +71,23 @@ const useProductsTable = () => {
     },
     {
       accessorKey: 'description',
-      header: () => <p className="text-sm md:text-base text-gray font-semibold">Description</p>,
+      header: () => <p className="text-sm md:text-base text-primary font-semibold">Description</p>,
       cell: ({ row }) => {
         const description: string = row.getValue('description')
-        return <p className="text-sm truncate">{description}</p>
+        return <p className="text-sm truncate max-w-[200px]">{description}</p>
       },
     },
     {
       accessorKey: '_id',
-      header: () => <p className="text-sm md:text-base text-gray font-semibold">Action</p>,
+      header: () => <p className="text-sm md:text-base text-primary font-semibold">Action</p>,
       cell: ({ row }) => {
         const productId: string = row.getValue('_id')
         const description: string = row.getValue('description')
         const stock: string = row.getValue('stock')
         const name: string = row.getValue('name')
-        const productImage: string = row.getValue('productImage')
+        const productImages: { imagePath: string; imageUrl: string }[] = row.getValue('productImages')
+        const productAvatar = 'https://avatars.githubusercontent.com/u/62663992'
+        const productImage = productImages.length > 0 ? productImages[0].imageUrl : productAvatar
         const price: string = row.getValue('price')
         const data = {
           productId,
