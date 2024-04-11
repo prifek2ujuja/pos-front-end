@@ -64,3 +64,9 @@ export type DailyReport = {
 export type ErrorResponse = {
   message: string
 }
+
+export type ProductImage = {
+  _id: string
+  imageUrl: string
+  productId: string
+}
