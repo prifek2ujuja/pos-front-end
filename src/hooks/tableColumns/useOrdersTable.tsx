@@ -6,11 +6,13 @@ import { OrderItem, User } from 'src/types'
 import dayjs from 'dayjs'
 import useDeleteOrder from '../mutations/useDeleteOrder'
 import { useNavigate } from 'react-router-dom'
-import Auth from 'src/state/Auth'
+import useDecodeToken from '../useDecodeToken'
 
 const useOrdersTable = () => {
   const { mutate: deleteOrder } = useDeleteOrder()
   const navigate = useNavigate()
+  const tokenData = useDecodeToken()
+  const role = tokenData?.role
   const redirectToEditOrder = (data: any) => {
     navigate('/sell', {
       state: data,
@@ -100,7 +102,7 @@ const useOrdersTable = () => {
         const refCode = row.getValue('refCode')
         return (
           <div>
-            {Auth.role.value === 'admin' ? (
+            {role === 'admin' ? (
               <>
                 <Button
                   onClick={() => {
@@ -122,7 +124,7 @@ const useOrdersTable = () => {
                   <AiOutlineDelete />
                 </Button>
               </>
-            ) : Auth.role.value === 'manager' ? (
+            ) : role === 'manager' ? (
               <Button
                 onClick={() => {
                   redirectToEditOrder({

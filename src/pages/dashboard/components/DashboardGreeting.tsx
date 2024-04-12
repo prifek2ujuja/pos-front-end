@@ -2,12 +2,14 @@
 /* eslint-disable no-nested-ternary */
 import dayjs from 'dayjs'
 import useUserProfile from 'src/hooks/queries/useUserProfile'
-import Auth from 'src/state/Auth'
 import { Button } from 'src/components/ui/button'
 import { Link } from 'react-router-dom'
+import useDecodeToken from 'src/hooks/useDecodeToken'
 
 const DashboardGreeting = () => {
-  const { data: profile } = useUserProfile(Auth.id.value as string)
+  const tokenData = useDecodeToken()
+  const role = tokenData?.role
+  const { data: profile } = useUserProfile(tokenData?.userId as string)
 
   const getTimeOfDay = () => {
     const currentTime = dayjs()
@@ -30,7 +32,7 @@ const DashboardGreeting = () => {
         {/* <FaHandSparkles className="text-3xl text-sky" /> */}
         <p className="text-3xl">👋</p>
       </div>
-      {Auth.role.value !== 'sales' && (
+      {role !== 'sales' && (
         <Link to="/sell">
           <Button className="bg-sky">Make a sale</Button>
         </Link>

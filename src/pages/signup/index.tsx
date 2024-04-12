@@ -1,10 +1,12 @@
 import logo from 'src/assets/logo.jpg'
 import SignUpForm from './components/SignUpForm'
 import { getNoneLayout } from 'src/components/layout'
-import Auth from 'src/state/Auth'
+import useDecodeToken from 'src/hooks/useDecodeToken'
 
 const Index = () => {
-  const isAdmin = Auth.role.value === 'admin'
+  const tokenData = useDecodeToken()
+  const role = tokenData?.role
+  const isAdmin = role === 'admin'
   return (
     <div className="poppins-regular min-h-screen bg-light-gray">
       <div className="max-w-6xl pt-10 mx-auto flex items-center justify-center gap-5 p-2 h-full">

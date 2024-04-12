@@ -3,14 +3,16 @@ import useListUsers from 'src/hooks/queries/useListUsers'
 import useUsersTable from 'src/hooks/tableColumns/useUsersTable'
 import DataTable from '../dashboard/components/DataTable'
 import { Button } from 'src/components/ui/button'
-import Auth from 'src/state/Auth'
 import { LoadingCard } from 'src/components/loading'
+import useDecodeToken from 'src/hooks/useDecodeToken'
 
 const Users = () => {
   const tableColumns = useUsersTable()
   const { data: users, isLoading, isError, isFetched } = useListUsers()
+  const tokenData = useDecodeToken()
+  const role = tokenData?.role
 
-  if (Auth.role.value !== 'admin' && Auth.role.value !== 'manager') {
+  if (role !== 'admin' && role !== 'manager') {
     return <Navigate to="/dashboard" />
   }
 
