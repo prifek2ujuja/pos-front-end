@@ -8,7 +8,7 @@ type TokenData = {
 }
 const useDecodeToken = () => {
   const { token } = useHookstate(Auth)
-  if (token) {
+  if (token.value) {
     const tokenData = jwtDecode(token.value as string)
     return tokenData as TokenData
   }

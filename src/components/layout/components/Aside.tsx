@@ -9,7 +9,7 @@ const Aside = () => {
   const tokenData = useDecodeToken()
   const role = tokenData?.role
   return (
-    <section className="hidden lg:flex flex-col gap-7 pt-20 px-10">
+    <section className="hidden lg:flex flex-col gap-7  px-10">
       <Link
         to="/dashboard"
         className={`flex items-center font-medium rounded-xl gap-2 p-2 ${

@@ -19,7 +19,6 @@ const useLogout = () => {
         authenticated: false,
         avatar: null,
         refreshToken: null,
-        role: null,
         status: null,
         token: null,
         userName: null,

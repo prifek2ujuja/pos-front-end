@@ -19,6 +19,7 @@ import useUploadImage from 'src/hooks/imageupload'
 import { useCallback, useState } from 'react'
 import { MdAddAPhoto } from 'react-icons/md'
 import ProductImages from './components/ProductImages'
+import useDecodeToken from 'src/hooks/useDecodeToken'
 
 type FormValues = z.infer<typeof createProductSchema>
 const Index = () => {

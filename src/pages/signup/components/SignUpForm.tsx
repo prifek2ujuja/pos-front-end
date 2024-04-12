@@ -8,6 +8,7 @@ import { Button } from 'src/components/ui/button'
 import { PropagateLoader } from 'react-spinners'
 import useSignup from 'src/hooks/mutations/useSignup'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from 'src/components/ui/select'
+import useDecodeToken from 'src/hooks/useDecodeToken'
 
 type FormValues = z.infer<typeof signupSchema>
 
