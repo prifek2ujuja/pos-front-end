@@ -68,5 +68,5 @@ export type ErrorResponse = {
 export type ProductImage = {
   _id: string
   imageUrl: string
-  productId: string
+  imagePath: string
 }

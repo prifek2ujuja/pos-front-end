@@ -27,7 +27,7 @@ const Index = () => {
 
   const [imageError, setImageError] = useState<string>()
 
-  const { uploadFile, progress, downloadURL, imagePath } = useUploadImage()
+  const { uploadFile, uploadProgress, downloadURL, imagePath } = useUploadImage()
   const onDrop = useCallback(
     (acceptedFiles: Blob[]) => {
       if (acceptedFiles[0].size > 3145728) {
@@ -130,7 +130,7 @@ const Index = () => {
                       <div className="flex flex-col items-center justify-center gap-6 h-full">
                         <MdAddAPhoto size={40} className="text-sky" />
                         <p className="text-center">Drag and drop an image of click to select image</p>
-                        {progress !== 0 && <p className="text-base lg:text-lg text-center">{progress}%</p>}
+                        {uploadProgress !== 0 && <p className="text-base lg:text-lg text-center">{uploadProgress}%</p>}
                       </div>
                     )}
                     {imageError && <p className="text-red-500 text-sm font-medium">{imageError}</p>}

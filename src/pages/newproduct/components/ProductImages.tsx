@@ -1,12 +1,16 @@
-import { FaEdit, FaTrash } from 'react-icons/fa'
+import { FaTrash } from 'react-icons/fa'
 import { LoadingCard } from 'src/components/loading'
 import useProductImages from 'src/hooks/queries/useProductImages'
 import { IoStar } from 'react-icons/io5'
+import useUploadImage from 'src/hooks/imageupload'
+import { ClipLoader } from 'react-spinners'
 
 const ProductImages = ({ productId }: { productId: string }) => {
   const { data, isLoading, isError, isFetched } = useProductImages(productId)
+  console.log(data)
+  const { deleteFile, deleteFileIsLoading } = useUploadImage()
   return (
-    <div className="mt-5 md:mt-14">
+    <div className="my-5 md:mt-14">
       <h1 className="my-4 text-lg font-medium">Product images</h1>
       {isLoading ? (
         <LoadingCard />
@@ -21,8 +25,8 @@ const ProductImages = ({ productId }: { productId: string }) => {
                 <button className="text-white">
                   <IoStar size={23} />
                 </button>
-                <button className="text-red-500">
-                  <FaTrash size={20} />
+                <button onClick={() => deleteFile(image.imagePath, image._id)} className="text-red-500">
+                  {deleteFileIsLoading ? <ClipLoader color="#4E97FD" size={19} /> : <FaTrash size={20} />}
                 </button>
               </div>
             </div>
