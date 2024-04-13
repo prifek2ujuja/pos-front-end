@@ -14,17 +14,18 @@ import useEditProduct from 'src/hooks/mutations/useEditProduct'
 import { useDropzone } from 'react-dropzone'
 // import { useCallback } from 'react'
 import { getHeaderLayout } from 'src/components/layout'
-import Auth from 'src/state/Auth'
 import { FaArrowLeft } from 'react-icons/fa'
 import useUploadImage from 'src/hooks/imageupload'
 import { useCallback, useState } from 'react'
 import { MdAddAPhoto } from 'react-icons/md'
 import ProductImages from './components/ProductImages'
+import useDecodeToken from 'src/hooks/useDecodeToken'
 
 type FormValues = z.infer<typeof createProductSchema>
 const Index = () => {
   const { state } = useLocation()
-
+  const tokenData = useDecodeToken()
+  const role = tokenData?.role
   const [imageError, setImageError] = useState<string>()
 
   const { uploadFile, progress, downloadURL, imagePath } = useUploadImage()
@@ -55,7 +56,7 @@ const Index = () => {
   const { mutateAsync: createProduct, isLoading: createProductIsLoading } = useCreateProduct()
   const { mutateAsync: editProduct, isLoading: editProductIsLoading } = useEditProduct()
 
-  if (Auth.role.value !== 'admin' && Auth.role.value !== 'manager') {
+  if (role !== 'admin' && role !== 'manager') {
     return <Navigate to="/dashboard" />
   }
   const onFormSubmitReady = async (data: FormValues) => {

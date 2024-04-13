@@ -23,7 +23,6 @@ const useLogin = () => {
         authenticated: true,
         avatar: data.avatar,
         refreshToken: data.refreshToken,
-        role: data.role,
         status: data.status,
         token: data.token,
         userName: data.userName,

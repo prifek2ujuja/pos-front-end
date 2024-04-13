@@ -1,24 +1,35 @@
 import dayjs from 'dayjs'
-import { RiFileDownloadFill } from 'react-icons/ri'
-import { useNavigate } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { PacmanLoader } from 'react-spinners'
 import { Button } from 'src/components/ui/button'
 import useListDailyReports from 'src/hooks/queries/useListDailyReports'
 import { DailyReport } from 'src/types'
+import { MdOutlineDownloadForOffline } from 'react-icons/md'
+import { IoIosArrowRoundForward } from 'react-icons/io'
 
 const DailyReports = () => {
   const { data: reports, isLoading, isSuccess } = useListDailyReports()
   const navigate = useNavigate()
+  if (isLoading) {
+    return <div>loading ...</div>
+  }
+  const finalData = reports.length > 5 ? reports.slice(0, 5) : reports
   return (
-    <div className="rounded-2xl p-2 bg-white shadow-xl w-full">
-      <h1 className="my-5 font-medium">Daily reports</h1>
+    <div className="rounded-2xl p-2 lg:p-4 bg-white shadow-xl w-full">
+      <div className="flex justify-between w-full items-center  mb-3">
+        <h1 className="font-medium">Daily reports</h1>
+        <Link to="#" className="text-sky hover:underline flex items-center gap-2 text-sm">
+          <p>View all</p>
+          <IoIosArrowRoundForward />
+        </Link>
+      </div>
       {isLoading ? (
         <div className="flex items-center justify-center w-full">
           <PacmanLoader color="#4E97FD" />
         </div>
       ) : isSuccess ? (
         <div>
-          {reports.map((report: DailyReport) => (
+          {finalData.map((report: DailyReport) => (
             <div key={crypto.randomUUID()} className="flex justify-between items-center">
               <Button
                 onClick={() => navigate(`/report/${report.createdAt}`)}
@@ -28,7 +39,7 @@ const DailyReports = () => {
               </Button>
 
               <Button className="bg-white text-sky hover:text-primary font-medium shadow-none hover:bg-white">
-                <RiFileDownloadFill size={21} />
+                <MdOutlineDownloadForOffline size={21} />
               </Button>
             </div>
           ))}

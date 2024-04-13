@@ -5,7 +5,7 @@ import { GiCash } from 'react-icons/gi'
 const RecentPurchases = () => {
   const { data: orders, isLoading: ordersIsLoading, isSuccess } = useListRecentOrders()
   return (
-    <div className="rounded-2xl p-2 bg-white shadow-xl w-full">
+    <div className="rounded-2xl p-2 bg-white shadow-xl w-full col-span-2">
       <h1 className="my-5 font-medium">Recent purchases</h1>
       {ordersIsLoading ? (
         <div className="flex items-center justify-center">

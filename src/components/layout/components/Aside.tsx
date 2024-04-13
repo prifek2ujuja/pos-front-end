@@ -2,12 +2,14 @@ import { MdOutlineDashboard } from 'react-icons/md'
 import { CiWallet, CiPillsBottle1, CiSettings } from 'react-icons/ci'
 import { TbUsersGroup } from 'react-icons/tb'
 import { Link, useLocation } from 'react-router-dom'
-import Auth from 'src/state/Auth'
+import useDecodeToken from 'src/hooks/useDecodeToken'
 
 const Aside = () => {
   const { pathname } = useLocation()
+  const tokenData = useDecodeToken()
+  const role = tokenData?.role
   return (
-    <section className="hidden lg:flex flex-col gap-7 pt-20 px-10">
+    <section className="hidden lg:flex flex-col gap-7  px-10">
       <Link
         to="/dashboard"
         className={`flex items-center font-medium rounded-xl gap-2 p-2 ${
@@ -35,7 +37,7 @@ const Aside = () => {
         <CiPillsBottle1 />
         <p>Products</p>
       </Link>
-      {(Auth.role.value === 'admin' || Auth.role.value === 'manager') && (
+      {(role === 'admin' || role === 'manager') && (
         <Link
           to="/users"
           className={`flex items-center font-medium rounded-xl gap-2 p-2 ${
