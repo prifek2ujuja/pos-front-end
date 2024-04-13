@@ -32,7 +32,6 @@ const SalesGraph = () => {
   }>()
   const [graphView, setGraphView] = useState<string>('year')
   const { data, isLoading, isError, isFetched } = useOrdersGraphData()
-  console.log(data)
   // const labels = graphData?.map((dataset) => monthMapping[dataset._id.month])
   // const sampleData = labels.map(() => faker.number.int({ min: 20000, max: 1000000 }))
   // const sampleData = graphData?.map((dataset) => dataset.total)
