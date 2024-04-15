@@ -30,8 +30,9 @@ const SalesGraph = () => {
     labels: string[]
     data: number[]
   }>()
-  const [graphView, setGraphView] = useState<string>('year')
+  const [graphView, setGraphView] = useState<string>('daily')
   const { data, isLoading, isError, isFetched } = useOrdersGraphData()
+  const [showGrid, setShowGrid] = useState(false)
   // const labels = graphData?.map((dataset) => monthMapping[dataset._id.month])
   // const sampleData = labels.map(() => faker.number.int({ min: 20000, max: 1000000 }))
   // const sampleData = graphData?.map((dataset) => dataset.total)
@@ -45,6 +46,7 @@ const SalesGraph = () => {
       },
     ],
   }
+
   const options = {
     responsive: true,
     maintainAspectRatio: false,
@@ -68,10 +70,10 @@ const SalesGraph = () => {
           stepSize: 1,
         },
         border: {
-          display: false,
+          display: true,
         },
         grid: {
-          display: false,
+          display: showGrid,
         },
       },
       x: {
@@ -79,12 +81,11 @@ const SalesGraph = () => {
           display: false,
         },
         border: {
-          display: false,
+          display: true,
         },
       },
     },
   }
-  // Create an array of years from the current year to 2 years back
   const graphViewOptions = [
     {
       value: 'year',
@@ -119,10 +120,10 @@ const SalesGraph = () => {
   }, [data, graphView, isFetched])
   return (
     <section className="w-full p-2 h-fit mb-16 bg-white rounded-2xl shadow-xl">
-      <div className="flex justify-between py-2 md:py-4">
+      <div className="flex items-center justify-between py-2 md:py-4">
         <h1 className="font-medium">Sales analytics</h1>
         <Select onValueChange={(val) => setGraphView(val)}>
-          <SelectTrigger className="min-w-[120px] max-w-fit mt-4 md:mt-0 rounded-2xl">
+          <SelectTrigger className="min-w-[120px] max-w-fit mt-4 md:mt-0 rounded-2xl focus:outline-sky">
             <SelectValue placeholder={graphViewOptions.find((option) => option.value === graphView)?.label} />
           </SelectTrigger>
           <SelectContent className="poppins-regular">
@@ -142,7 +143,7 @@ const SalesGraph = () => {
         <Bar
           options={options}
           data={chartData}
-          className="max-h-[400px] max-w-full rounded-2xl px-2 text-black md:px-6 py-4 bg-white md:h-full"
+          className="max-h-[400px] max-w-full rounded-2xl text-black md:px-6 py-4 bg-white md:h-full"
         />
       ) : null}
     </section>

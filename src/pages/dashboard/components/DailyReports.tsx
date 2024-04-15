@@ -17,9 +17,9 @@ const DailyReports = () => {
   return (
     <div className="rounded-2xl p-2 lg:p-4 bg-white shadow-xl w-full">
       <div className="flex justify-between w-full items-center  mb-3">
-        <h1 className="font-medium">Daily reports</h1>
-        <Link to="#" className="text-sky hover:underline flex items-center gap-2 text-sm">
-          <p>View all</p>
+        <h1 className="font-medium text-sm md:text-base">Daily reports</h1>
+        <Link to="#" className="text-sky hover:underline hidden md:flex items-center text-sm">
+          <p className="text-sm">View all</p>
           <IoIosArrowRoundForward />
         </Link>
       </div>
@@ -51,7 +51,7 @@ const DailyReports = () => {
       )}
       {isSuccess && reports.length === 0 && (
         <div>
-          <p>No reports for now</p>
+          <p className="text-sm">No reports for now</p>
         </div>
       )}
     </div>
