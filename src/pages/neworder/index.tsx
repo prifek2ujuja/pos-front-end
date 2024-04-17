@@ -1,15 +1,14 @@
 import { Button } from 'src/components/ui/button'
-import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from 'src/components/ui/form'
+import { Form, FormControl, FormField, FormItem, FormMessage } from 'src/components/ui/form'
 import { Input } from 'src/components/ui/input'
 import { createOrderSchema } from 'src/schemas/index'
 import { zodResolver } from '@hookform/resolvers/zod'
 import * as z from 'zod'
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from 'src/components/ui/select'
 import { useForm } from 'react-hook-form'
 import useListProducts from 'src/hooks/queries/useListProducts'
 import { useHookstate } from '@hookstate/core'
 import { OrderItem, Product } from 'src/types'
-import { RadioGroup, RadioGroupItem } from 'src/components/ui/radio-group'
+import { MdMobileScreenShare, MdOutlinePhoneEnabled } from 'react-icons/md'
 import { useEffect, useState } from 'react'
 import useCreateOrder from 'src/hooks/mutations/useCreateOrder'
 import { PropagateLoader } from 'react-spinners'
@@ -17,7 +16,10 @@ import { useLocation, useNavigate } from 'react-router-dom'
 import useEditOrder from 'src/hooks/mutations/useEditOrder'
 import { getHeaderLayout } from 'src/components/layout'
 import { FaArrowLeft } from 'react-icons/fa'
-import { FiMinusSquare, FiPlusSquare } from 'react-icons/fi'
+import { FaCircleUser } from 'react-icons/fa6'
+import { BsCashStack } from 'react-icons/bs'
+import { IoSearchSharp } from 'react-icons/io5'
+import { TbShoppingCartMinus } from 'react-icons/tb'
 
 type FormValues = z.infer<typeof createOrderSchema>
 const Index = () => {
@@ -101,6 +103,7 @@ const Index = () => {
 
     orderForm.reset()
   }
+  console.log(products)
   return (
     <div className="w-full poppins-regular">
       <div className="mx-auto max-w-6xl">
@@ -113,176 +116,199 @@ const Index = () => {
           </Button>
           <h1 className="text-lg font-medium">New sale</h1>
         </div>
-
-        <Form {...orderForm}>
-          <form
-            action=""
-            onSubmit={orderForm.handleSubmit(onFormReadySubmit)}
-            className="p-2 rounded-2xl bg-white shadow-xl md:p-4"
-          >
-            <div className="flex flex-col gap-3 mb-3">
-              <h1 className="font-medium">Customer information (optional)</h1>
-              <div className="flex flex-col md:flex-row gap-4">
-                <FormField
-                  control={orderForm.control}
-                  name="customerName"
-                  render={({ field }) => (
-                    <FormItem className="mb-4 w-full">
-                      <FormLabel className="mb-2">Name</FormLabel>
-                      <FormControl>
-                        <Input placeholder="John" {...field} className="focus:border-none" />
-                      </FormControl>
-                      <FormDescription>Customers name.</FormDescription>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                <FormField
-                  control={orderForm.control}
-                  name="customerPhone"
-                  render={({ field }) => (
-                    <FormItem className="mb-4 w-full focus:outline-sky">
-                      <FormLabel>Phone number</FormLabel>
-                      <FormControl>
-                        <Input
-                          placeholder="07819183623"
-                          {...field}
-                          className="  focus:border-none  focus:outline-none"
-                        />
-                      </FormControl>
-                      <FormDescription>Customers phone number.</FormDescription>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-              </div>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2">
+          <div className="flex flex-col gap-3 lg:col-span-2 bg-white rounded-2xl shadow-xl p-2 md:p-4 min-h-fit h-full">
+            <div className="relative mb-4 bg-card rounded-md flex items-center shadow-lg">
+              <input
+                placeholder="Search product name"
+                className="w-full focus:border-none rounded-md p-1 border bg-light-gray focus:outline-none"
+              />
+              <IoSearchSharp className="absolute right-3 text-sky" />
             </div>
+            <div className="h-full grid grid-cols-2 md:flex md:flex-row flex-wrap gap-3">
+              {products?.map((product) => {
+                const selected = orderItems.value.find((item) => item.product._id === product._id)
+                return (
+                  <Button
+                    type="button"
+                    key={crypto.randomUUID()}
+                    className={`relative flex flex-col p-0 text-black hover:text-white w-full md:w-32 rounded-lg  ${
+                      selected ? 'border-sky border-2 shadow-xl' : 'border-sky border-2 shadow-lg'
+                    } h-fit  bg-light-gray cursor-pointer`}
+                    onClick={() => addToCart(product)}
+                  >
+                    <img
+                      src={product.productImage}
+                      alt="product-image"
+                      className="w-full md:w-32 h-32 rounded-lg object-cover"
+                    />
+                    <div className="flex flex-col justify-between items-center text-sm my-2">
+                      <p className="font-medium flex items-center gap-1 text-sm md:text-md">
+                        {product.name}{' '}
+                        {selected && (
+                          <div className="bg-sky rounded-full h-4 w-4 text-xs text-white">{selected.quantity}</div>
+                        )}
+                      </p>
+                      <p className="text-sky font-medium text-sm md:text-md">ksh {product.price}</p>
+                    </div>
+                  </Button>
+                )
+              })}
+            </div>
+          </div>
 
-            <div className="flex flex-col gap-3">
-              <h1 className="text-black font-medium">Order items</h1>
-              {/* Product list */}
-              <div className="flex flex-col">
-                <FormLabel className="mb-2">Select items</FormLabel>
-                <Select
-                  onValueChange={(val) => {
-                    addToCart(JSON.parse(val))
-                  }}
-                >
-                  <SelectTrigger className="w-full focus:border-none">
-                    <SelectValue placeholder="Product" />
-                  </SelectTrigger>
-                  <SelectContent className="poppins-regular">
-                    {productsIsSuccess &&
-                      products.map((product) => (
-                        <SelectItem key={crypto.randomUUID()} value={JSON.stringify(product)}>
-                          <div className="flex gap-4 items-center">
-                            <img
-                              src={product.productImage}
-                              alt={`${product.name}-image`}
-                              className="h-8 w-8 rounded-full"
+          <Form {...orderForm}>
+            <form
+              action=""
+              onSubmit={orderForm.handleSubmit(onFormReadySubmit)}
+              className="p-2 relative rounded-2xl bg-white shadow-xl md:p-4 h-full"
+            >
+              <div className="flex flex-col gap-3 mb-3">
+                <div className="flex flex-col ">
+                  <FormField
+                    control={orderForm.control}
+                    name="customerName"
+                    render={({ field }) => (
+                      <FormItem className="w-full flex items-center gap-3">
+                        <FormControl>
+                          <div className="  w-full relative mb-4 bg-card  rounded-md flex items-center shadow-lg">
+                            <Input
+                              placeholder="Customer name"
+                              {...field}
+                              className="w-full focus:border-none rounded-md p-1  bg-light-gray focus:outline-none"
                             />
-                            <p>{product.name}</p>
+                            <FaCircleUser className="absolute right-3 text-sky" />
                           </div>
-                        </SelectItem>
-                      ))}
-                  </SelectContent>
-                </Select>
-                <div className="mt-10 mb-4 flex flex-col gap-3 rounded-2xl p-2 min-h-20">
-                  {orderItems.value.length === 0 && (
-                    <div className="flex justify-center items-center min-h-20">
-                      <p>No products selected</p>
-                    </div>
-                  )}
-                  {orderItems.value.map((item) => (
-                    <div key={crypto.randomUUID()} className="flex items-center justify-between">
-                      <div className="flex gap-2 md:gap-4 items-center">
-                        <img src={item.product.productImage} alt="product-image" className="w-10 h-10 rounded-full" />
-                        <p>{item.product.name}</p>
-                      </div>
-                      <div className="flex items-center gap-3 md:gap-6">
-                        <Button
-                          onClick={() => addToCart(item.product)}
-                          type="button"
-                          className="rounded-full border-none w-10 p-0 shadow-none h-10  border bg-white hover:bg-white"
-                        >
-                          <FiPlusSquare className="text-2xl text-sky" size={30} />
-                        </Button>
-                        <p className="font-medium text-lg">{item.quantity}</p>
-                        <Button
-                          onClick={() => removeFromCart(item.product._id)}
-                          type="button"
-                          className="rounded-full border-none w-10 p-0 shadow-none h-10  border bg-white hover:bg-white"
-                        >
-                          <FiMinusSquare className="text-2xl text-sky" size={30} />
-                        </Button>
-                      </div>
-                    </div>
-                  ))}
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={orderForm.control}
+                    name="customerPhone"
+                    render={({ field }) => (
+                      <FormItem className="flex items-center gap-3 w-full focus:outline-sky flex-row-reverse">
+                        <FormControl>
+                          <div className="w-full relative mb-4 bg-card rounded-md flex items-center shadow-lg">
+                            <Input
+                              placeholder="Customer phone number"
+                              {...field}
+                              className="w-full focus:border-none rounded-md p-1 bg-light-gray focus:outline-none"
+                            />
+                            <MdOutlinePhoneEnabled className="absolute right-3 text-sky" />
+                          </div>
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
                 </div>
               </div>
-            </div>
-            <div>
-              <FormField
-                control={orderForm.control}
-                name="paymentMode"
-                render={({ field }) => (
-                  <FormItem className="space-x-3">
-                    <FormLabel>Mode of payment</FormLabel>
-                    <FormControl>
-                      <RadioGroup
-                        onValueChange={(val: any) => {
-                          setPaymentMode(val)
-                          field.onChange(val)
-                        }}
-                        defaultValue={field.value}
-                        className="flex space-x-2"
-                      >
-                        <FormItem className="flex items-center space-x-3 space-y-0">
-                          <FormControl>
-                            <RadioGroupItem className="text-sky border-sky" value="mpesa" />
-                          </FormControl>
-                          <FormLabel className="font-normal">M-pesa</FormLabel>
-                        </FormItem>
-                        <FormItem className="flex items-center space-x-3 space-y-0">
-                          <FormControl>
-                            <RadioGroupItem className="text-sky border-sky" value="cash" />
-                          </FormControl>
-                          <FormLabel className="font-normal">Cash</FormLabel>
-                        </FormItem>
-                      </RadioGroup>
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
+
+              {/*  */}
+              <div>
+                <div className="flex items-center rounded-3xl justify-evenly bg-light-gray mt-4 mb-6 shadow-lg">
+                  <button
+                    onClick={() => {
+                      setPaymentMode('mpesa')
+                      orderForm.setValue('paymentMode', 'mpesa')
+                    }}
+                    type="button"
+                    className={`flex items-center justify-center gap-2 rounded-3xl p-1 w-1/2 ${
+                      paymentMode === 'mpesa' ? 'bg-sky text-white' : ''
+                    }`}
+                  >
+                    <MdMobileScreenShare />
+                    <p>M-Pesa</p>
+                  </button>
+                  <button
+                    onClick={() => {
+                      setPaymentMode('cash')
+                      orderForm.setValue('paymentMode', 'cash')
+                    }}
+                    type="button"
+                    className={`flex items-center justify-center gap-2 rounded-3xl p-1 w-1/2 ${
+                      paymentMode === 'cash' ? 'bg-sky text-white' : ''
+                    }`}
+                  >
+                    <BsCashStack />
+                    <p>Cash</p>
+                  </button>
+                </div>
+                {paymentMode === 'mpesa' && (
+                  <FormField
+                    control={orderForm.control}
+                    name="refCode"
+                    render={({ field }) => (
+                      <FormItem className="mb-8 w-full">
+                        {/* <FormLabel className="mb-2">Transaction code</FormLabel> */}
+                        <FormControl>
+                          <Input
+                            className="focus:border-none bg-light-gray shadow-lg"
+                            placeholder="Transaction code"
+                            {...field}
+                          />
+                        </FormControl>
+
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
                 )}
-              />
-              {paymentMode === 'mpesa' && (
-                <FormField
-                  control={orderForm.control}
-                  name="refCode"
-                  render={({ field }) => (
-                    <FormItem className="my-4 w-full">
-                      <FormLabel className="mb-2">Transaction code</FormLabel>
-                      <FormControl>
-                        <Input className="focus:border-none" placeholder="SFCFRGLSFC" {...field} />
-                      </FormControl>
-                      <FormDescription>Ref code.</FormDescription>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-              )}
-            </div>
-            <div className="my-10 flex flex-col md:flex-row gap-4">
-              {/* <h1 className="text-gray font-medium mb-4">Payment</h1> */}
-              <Button type="submit" className="w-full bg-sky" disabled={createOrderIsLoading}>
-                {createOrderIsLoading ? <PropagateLoader color="#36d7b7" /> : 'Save order'}
-              </Button>
-              <Button className="w-full bg-white border border-red-500 text-red-500 hover:bg-red-500 hover:text-white">
-                Clear order
-              </Button>
-            </div>
-          </form>
-        </Form>
+              </div>
+              <div className="mb-10 h-72 cursor-pointer">
+                <table className="w-full">
+                  <thead>
+                    <tr>
+                      <th className="text-left font-medium text-sm">Product</th>
+                      <th className="text-left font-medium text-sm">Price</th>
+                      <th className="text-left font-medium text-sm">Quantity</th>
+                      <th className="text-left font-medium text-sm">Total</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {orderItems.value.map((item) => (
+                      <tr key={item.product._id}>
+                        <td className="text-sm">
+                          <div className="flex items-center gap-2">
+                            <img
+                              src={item.product.productImage}
+                              className="h-5 w-5 rounded-full hidden md:block"
+                              alt="product-image"
+                            />
+                            <p>{item.product.name}</p>
+                          </div>
+                        </td>
+                        <td className="text-sm">{item.product.price}</td>
+                        <td className="text-sm text-center">{item.quantity}</td>
+                        <td className="text-sm">{parseInt(item.product.price) * item.quantity}</td>
+                        <td>
+                          <button
+                            type="button"
+                            onClick={() => removeFromCart(item.product._id)}
+                            className="text-red-500 rounded-lg p-3 hover:bg-sky hover:text-white"
+                          >
+                            <TbShoppingCartMinus />
+                          </button>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+              <div className="flex w-full flex-col md:flex-row gap-4 p-2 absolute bottom-0 left-0">
+                {/* <h1 className="text-gray font-medium mb-4">Payment</h1> */}
+                <Button type="submit" className="w-1/2 bg-sky" disabled={createOrderIsLoading}>
+                  {createOrderIsLoading ? <PropagateLoader color="#36d7b7" /> : 'Save order'}
+                </Button>
+                <Button className=" w-1/2 bg-white border border-red-500 text-red-500 hover:bg-red-500 hover:text-white">
+                  Clear order
+                </Button>
+              </div>
+            </form>
+          </Form>
+        </div>
       </div>
     </div>
   )

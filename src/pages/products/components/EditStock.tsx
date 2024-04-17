@@ -5,13 +5,13 @@ import { Input } from 'src/components/ui/input'
 import { z } from 'zod'
 import { RadioGroupItem } from 'src/components/ui/radio-group'
 import { editProductStockSchema } from 'src/schemas'
-import useEditProduct from 'src/hooks/mutations/useEditProduct'
 import { Popover, PopoverTrigger } from 'src/components/ui/popover'
 import { Button } from 'src/components/ui/button'
 import { PopoverContent } from '@radix-ui/react-popover'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { FaEdit } from 'react-icons/fa'
 import { PropagateLoader } from 'react-spinners'
+import useEditProductStock from 'src/hooks/mutations/useEditProductStock'
 
 type FormValues = z.infer<typeof editProductStockSchema>
 
@@ -25,7 +25,7 @@ const EditStock = ({ productId, stock, productName }: Props) => {
   const editStockForm = useForm<FormValues>({
     resolver: zodResolver(editProductStockSchema),
   })
-  const { mutateAsync: editProduct, isLoading: editProductIsLoading } = useEditProduct()
+  const { mutateAsync: editProduct, isLoading: editProductIsLoading } = useEditProductStock()
   const onFormSubmitReady = async (data: FormValues) => {
     console.log('handle submit called')
     // pass
@@ -37,7 +37,8 @@ const EditStock = ({ productId, stock, productName }: Props) => {
       return
     }
     const payload = {
-      stock: finalStock,
+      stock: data.stock,
+      action: data.action,
     }
     await editProduct({ data: payload, productId })
   }

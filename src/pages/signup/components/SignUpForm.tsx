@@ -7,13 +7,15 @@ import { Input } from 'src/components/ui/input'
 import { Button } from 'src/components/ui/button'
 import { PropagateLoader } from 'react-spinners'
 import useSignup from 'src/hooks/mutations/useSignup'
-import Auth from 'src/state/Auth'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from 'src/components/ui/select'
+import useDecodeToken from 'src/hooks/useDecodeToken'
 
 type FormValues = z.infer<typeof signupSchema>
 
 const SignUpForm = () => {
-  const isAdmin = Auth.role.value === 'admin'
+  const tokenData = useDecodeToken()
+  const role = tokenData?.role
+  const isAdmin = role === 'admin'
   const signupForm = useForm<FormValues>({
     resolver: zodResolver(signupSchema),
     defaultValues: {

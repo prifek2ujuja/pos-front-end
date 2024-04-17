@@ -6,7 +6,7 @@ import useDeleteProduct from '../mutations/useDeleteProduct'
 import { Product } from 'src/types'
 import { useNavigate } from 'react-router-dom'
 import EditStock from 'src/pages/products/components/EditStock'
-import Auth from 'src/state/Auth'
+import useDecodeToken from '../useDecodeToken'
 
 type EditData = {
   productId: string
@@ -20,7 +20,8 @@ type EditData = {
 const useProductsTable = () => {
   const { mutate: deleteProduct } = useDeleteProduct()
   const navigate = useNavigate()
-
+  const tokenData = useDecodeToken()
+  const role = tokenData?.role
   const redirectToEditForm = (state: EditData) => {
     navigate('/newproduct', { state })
   }
@@ -62,7 +63,7 @@ const useProductsTable = () => {
         return (
           <div className="flex gap-1 items-center">
             <p className="text-sm">{stock || 0}</p>
-            {(Auth.role.value === 'manager' || Auth.role.value === 'admin') && (
+            {(role === 'manager' || role === 'admin') && (
               <EditStock productId={productId} stock={parseInt(stock)} productName={productName} />
             )}
           </div>
@@ -99,7 +100,7 @@ const useProductsTable = () => {
         }
         return (
           <div>
-            {Auth.role.value === 'admin' ? (
+            {role === 'admin' ? (
               <>
                 <Button
                   onClick={() => redirectToEditForm(data)}
@@ -114,7 +115,7 @@ const useProductsTable = () => {
                   <AiOutlineDelete />
                 </Button>
               </>
-            ) : Auth.role.value === 'manager' ? (
+            ) : role === 'manager' ? (
               <Button
                 onClick={() => redirectToEditForm(data)}
                 className="bg-white text-sky border-none shadow-none hover:bg-light-gray"

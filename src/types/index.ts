@@ -30,11 +30,11 @@ export type AdminUserData = User & {
   email: string
   phoneNumber: string
   status: string
+  role: string | null
 }
 
 export type User = {
   userName: string | null
-  role: string | null
   status: string | null
   avatar: string | null
   refreshToken: string | null

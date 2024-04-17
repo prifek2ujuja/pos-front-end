@@ -5,8 +5,8 @@ import { GiCash } from 'react-icons/gi'
 const RecentPurchases = () => {
   const { data: orders, isLoading: ordersIsLoading, isSuccess } = useListRecentOrders()
   return (
-    <div className="rounded-2xl p-2 bg-white shadow-xl w-full">
-      <h1 className="my-5 font-medium">Recent purchases</h1>
+    <div className="rounded-2xl p-2 lg:p-4 bg-white shadow-xl w-full col-span-2">
+      <h1 className="font-medium text-sm md:text-base mb-3">Recent purchases</h1>
       {ordersIsLoading ? (
         <div className="flex items-center justify-center">
           <PacmanLoader color="#4E97FD" />
@@ -15,14 +15,14 @@ const RecentPurchases = () => {
         <div className="">
           {orders.map((order) => (
             <div key={crypto.randomUUID()} className="flex justify-between items-center">
-              <p className="flex flex-wrap gap-3 items-center">
+              <div className="flex flex-wrap gap-3 items-center text-sm md:text-base">
                 {order.orderItems.map((item) => (
-                  <span key={crypto.randomUUID()}>
-                    {item.product.name} x {item.quantity}
-                  </span>
+                  <p key={crypto.randomUUID()}>
+                    {item.product.name} <span className="text-sm">({item.quantity})</span>
+                  </p>
                 ))}
-              </p>
-              <p className="flex items-center gap-3">
+              </div>
+              <p className="flex items-center font-medium gap-3">
                 {' '}
                 <span className="">
                   <GiCash className="text-sky" size={21} />

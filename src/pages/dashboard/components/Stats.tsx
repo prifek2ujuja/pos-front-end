@@ -51,7 +51,7 @@ const Stats = () => {
             </div>
           )}
         </div>
-        <div className="rounded-xl p-2 shadow-xl flex flex-col gap-2 bg-white justify-between md:p-4">
+        <div className="rounded-xl col-span-2 md:col-span-1 p-2 shadow-xl flex flex-col gap-2 bg-white justify-between md:p-4">
           <p className="font-medium text-sm md:text-base">All time sales</p>
           {statsIsLoading ? (
             <>

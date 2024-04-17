@@ -14,7 +14,7 @@ export function Header() {
   const { mutate: logout, isLoading } = useLogout()
 
   return (
-    <div className="left-0 top-0 flex w-full items-center justify-between py-4  md:mb-10 lg:mb-16">
+    <div className="left-0 top-0 flex w-full items-center justify-between py-4 md:mb-5">
       <Link to="/" className="text-xs md:text-base flex flex-col items-center">
         <div className="flex items-center md:flex-row md:items-center gap-2 sm:gap-5">
           <img src={logo} alt="logo" className="h-10 md:h-16  w-10 md:w-16 rounded-full" />
