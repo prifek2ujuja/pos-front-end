@@ -20,9 +20,11 @@ import { FaCircleUser } from 'react-icons/fa6'
 import { BsCashStack } from 'react-icons/bs'
 import { IoSearchSharp } from 'react-icons/io5'
 import { TbShoppingCartMinus } from 'react-icons/tb'
+import { parsePhoneNumber } from 'libphonenumber-js'
 
 type FormValues = z.infer<typeof createOrderSchema>
 const Index = () => {
+  const [orderItemsError, setOrderItemsError] = useState<string>()
   const { data: products, isSuccess: productsIsSuccess } = useListProducts()
   const { state } = useLocation()
   const navigate = useNavigate()
@@ -74,6 +76,19 @@ const Index = () => {
   }
 
   const onFormReadySubmit = async (data: FormValues) => {
+    if (orderItems.value.length === 0) {
+      setOrderItemsError('Please add products to the order')
+      return
+    }
+    if (data.paymentMode === 'mpesa' && !data.refCode) {
+      orderForm.setError('refCode', { message: 'Transaction code is required' })
+      return
+    }
+    const parsedPhone = parsePhoneNumber(data.customerPhone, 'KE')
+    if (!parsedPhone || !parsedPhone.isValid()) {
+      orderForm.setError('customerPhone', { message: 'Invalid phone number' })
+      return
+    }
     if (state) {
       await editOrder({
         orderId: state.orderId,
@@ -84,7 +99,7 @@ const Index = () => {
           refCode: data.refCode || '',
           customer: {
             name: data.customerName,
-            phone: data.customerPhone,
+            phone: parsedPhone.number,
           },
         },
       })
@@ -96,7 +111,7 @@ const Index = () => {
         refCode: data.refCode || '',
         customer: {
           name: data.customerName,
-          phone: data.customerPhone,
+          phone: parsedPhone.number,
         },
       })
     }
@@ -125,6 +140,7 @@ const Index = () => {
               />
               <IoSearchSharp className="absolute right-3 text-sky" />
             </div>
+            {orderItemsError && <p className="text-red-500 text-sm my-2 font-medium">{orderItemsError}</p>}
             <div className="h-full grid grid-cols-2 md:flex md:flex-row flex-wrap gap-3">
               {products?.map((product) => {
                 const selected = orderItems.value.find((item) => item.product._id === product._id)
@@ -169,7 +185,7 @@ const Index = () => {
                     control={orderForm.control}
                     name="customerName"
                     render={({ field }) => (
-                      <FormItem className="w-full flex items-center gap-3">
+                      <FormItem className="w-full flex gap-3">
                         <FormControl>
                           <div className="  w-full relative mb-4 bg-card  rounded-md flex items-center shadow-lg">
                             <Input
@@ -188,7 +204,7 @@ const Index = () => {
                     control={orderForm.control}
                     name="customerPhone"
                     render={({ field }) => (
-                      <FormItem className="flex items-center gap-3 w-full focus:outline-sky flex-row-reverse">
+                      <FormItem className="gap-3 w-full focus:outline-sky ">
                         <FormControl>
                           <div className="w-full relative mb-4 bg-card rounded-md flex items-center shadow-lg">
                             <Input
@@ -208,7 +224,7 @@ const Index = () => {
 
               {/*  */}
               <div>
-                <div className="flex items-center rounded-3xl justify-evenly bg-light-gray mt-4 mb-6 shadow-lg">
+                <div className="flex items-center rounded-3xl justify-evenly bg-light-gray mt-4 mb-4 shadow-lg">
                   <button
                     onClick={() => {
                       setPaymentMode('mpesa')
@@ -236,6 +252,11 @@ const Index = () => {
                     <p>Cash</p>
                   </button>
                 </div>
+                {orderForm.formState.errors.paymentMode && (
+                  <div className="my-2">
+                    <p className="text-red-500 font-medium text-sm">{orderForm.formState.errors.paymentMode.message}</p>
+                  </div>
+                )}
                 {paymentMode === 'mpesa' && (
                   <FormField
                     control={orderForm.control}
