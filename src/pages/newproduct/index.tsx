@@ -213,21 +213,26 @@ const Index = () => {
                   )}
                 />
               </div>
-              <div className="my-10 flex flex-col md:flex-row gap-4">
-                {/* <h1 className="text-gray font-medium mb-4">Payment</h1> */}
-                <Button
-                  disabled={createProductIsLoading || editProductIsLoading || !orderForm.formState.isDirty}
-                  type="submit"
-                  className="w-full bg-sky flex items-center"
-                >
-                  {createProductIsLoading || editProductIsLoading ? <PropagateLoader color="#36d7b7" /> : 'Save'}
-                </Button>
-                <Button
-                  type="button"
-                  className="w-full bg-white border border-red-500 text-red-500 hover:bg-red-500 hover:text-white"
-                >
-                  Cancel
-                </Button>
+              <div className="flex-col gap-2 items-center">
+                <div className="my-10 flex flex-col md:flex-row gap-4">
+                  {/* <h1 className="text-gray font-medium mb-4">Payment</h1> */}
+                  <Button
+                    disabled={createProductIsLoading || editProductIsLoading || !orderForm.formState.isDirty}
+                    type="submit"
+                    className="w-full bg-sky flex items-center"
+                  >
+                    Save
+                  </Button>
+                  <Button
+                    type="button"
+                    className="w-full bg-white border border-red-500 text-red-500 hover:bg-red-500 hover:text-white"
+                  >
+                    Cancel
+                  </Button>
+                </div>
+                {(createProductIsLoading || editProductIsLoading) && (
+                  <PropagateLoader className="mb-2 w-full" color="#36d7b7" />
+                )}
               </div>
             </div>
           </form>
