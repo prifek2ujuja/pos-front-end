@@ -237,7 +237,7 @@ const Index = () => {
             </div>
           </form>
         </Form>
-        {state.productId && <ProductImages productId={state.productId} />}
+        {state && <ProductImages productId={state.productId} />}
       </div>
     </div>
   )
