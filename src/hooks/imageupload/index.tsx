@@ -115,7 +115,7 @@ const useUploadImage = () => {
         }
       })
   }
-  return { uploadFile, uploadProgress, downloadURL, imagePath, deleteFile, deleteFileIsLoading }
+  return { uploadFile, uploadProgress, downloadURL, imagePath, deleteFile, deleteFileIsLoading, setDownloadUrl }
 }
 
 export default useUploadImage

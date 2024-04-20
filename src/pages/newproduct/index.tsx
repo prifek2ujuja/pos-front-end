@@ -28,7 +28,7 @@ const Index = () => {
   const role = tokenData?.role
   const [imageError, setImageError] = useState<string>()
 
-  const { uploadFile, uploadProgress, downloadURL, imagePath } = useUploadImage()
+  const { uploadFile, uploadProgress, downloadURL, imagePath, setDownloadUrl } = useUploadImage()
   const onDrop = useCallback(
     (acceptedFiles: Blob[]) => {
       if (acceptedFiles[0].size > 3145728) {
@@ -86,6 +86,8 @@ const Index = () => {
         imagePath,
       })
       orderForm.reset()
+      setDownloadUrl('')
+      return
     }
   }
   return (
