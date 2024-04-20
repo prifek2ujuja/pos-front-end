@@ -143,7 +143,7 @@ const Index = () => {
               <IoSearchSharp className="absolute right-3 text-sky" />
             </div>
             {orderItemsError && <p className="text-red-500 text-sm my-2 font-medium">{orderItemsError}</p>}
-            <div className="h-full grid grid-cols-2 md:flex md:flex-row flex-wrap gap-3">
+            <div className="h-full grid grid-cols-2 md:grid-cols-3 gap-3 md:gap-5 justify-center items-center">
               {products?.map((product) => {
                 const selected = orderItems.value.find((item) => item.product._id === product._id)
                 return (
