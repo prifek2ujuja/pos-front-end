@@ -10,9 +10,9 @@ export const createOrderSchema = z.object({
 })
 
 export const createProductSchema = z.object({
-  productName: z.string().min(2).max(30),
+  productName: z.string().min(2).max(50),
   productPrice: z.number(),
-  productDescription: z.string().min(10).max(300),
+  productDescription: z.string().min(10).max(600),
   stock: z.number(),
 })
 
