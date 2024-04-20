@@ -93,6 +93,7 @@ const Index = () => {
       await editOrder({
         orderId: state.orderId,
         data: {
+          // @ts-ignore
           orderItems: orderItems.value.map((val) => ({ product: val.product, quantity: val.quantity })),
           orderTotal: orderItems.value.reduce((acc, currentValue) => acc + parseInt(currentValue.product.price), 0),
           paymentMode: data.paymentMode,
@@ -105,6 +106,7 @@ const Index = () => {
       })
     } else {
       await createOrder({
+        // @ts-ignore
         orderItems: orderItems.value.map((val) => ({ product: val.product, quantity: val.quantity })),
         orderTotal: orderItems.value.reduce((acc, currentValue) => acc + parseInt(currentValue.product.price), 0),
         paymentMode: data.paymentMode,
@@ -154,7 +156,11 @@ const Index = () => {
                     onClick={() => addToCart(product)}
                   >
                     <img
-                      src={product.productImage}
+                      src={
+                        product.productImages && product.productImages[0]
+                          ? product.productImages[0].imageUrl
+                          : product.productImage
+                      }
                       alt="product-image"
                       className="w-full md:w-32 h-32 rounded-lg object-cover"
                     />

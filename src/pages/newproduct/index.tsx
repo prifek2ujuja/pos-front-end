@@ -28,7 +28,7 @@ const Index = () => {
   const role = tokenData?.role
   const [imageError, setImageError] = useState<string>()
 
-  const { uploadFile, uploadProgress, downloadURL, imagePath, setDownloadUrl } = useUploadImage()
+  const { uploadFile, downloadURL, imagePath, setDownloadUrl } = useUploadImage()
   const onDrop = useCallback(
     (acceptedFiles: Blob[]) => {
       if (acceptedFiles[0].size > 3145728) {
@@ -127,7 +127,7 @@ const Index = () => {
                       <div className="flex flex-col items-center justify-center gap-6 h-full">
                         <MdAddAPhoto size={40} className="text-sky" />
                         <p className="text-center">Drag and drop an image of click to select image</p>
-                        {uploadProgress !== 0 && <p className="text-base lg:text-lg text-center">{uploadProgress}%</p>}
+                        {/* {uploadProgress !== 0 && <p className="text-base lg:text-lg text-center">{uploadProgress}%</p>} */}
                       </div>
                     )}
 
@@ -233,7 +233,7 @@ const Index = () => {
                   </Button>
                 </div>
                 {(createProductIsLoading || editProductIsLoading) && (
-                  <PropagateLoader className="mb-2 w-full" color="#36d7b7" />
+                  <PropagateLoader className="mb-2 w-full" color="#4E97FD" />
                 )}
               </div>
             </div>

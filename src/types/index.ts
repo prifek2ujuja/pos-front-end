@@ -4,6 +4,7 @@ export type Product = {
   _id: string
   description: string
   productImage?: string
+  productImages?: ProductImage[]
   stock: number
 }
 
