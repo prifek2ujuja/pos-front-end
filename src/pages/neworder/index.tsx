@@ -150,7 +150,7 @@ const Index = () => {
                   <Button
                     type="button"
                     key={crypto.randomUUID()}
-                    className={`relative flex flex-col p-0 text-black hover:text-white w-full md:w-32 rounded-lg  ${
+                    className={`relative flex flex-col p-0 text-black hover:text-white w-full md:w-48 rounded-lg  ${
                       selected ? ' border-1 border-sky shadow-xl' : ' border-2 shadow-lg'
                     } h-fit  bg-light-gray cursor-pointer`}
                     onClick={() => addToCart(product)}
@@ -162,7 +162,7 @@ const Index = () => {
                           : product.productImage
                       }
                       alt="product-image"
-                      className="w-full md:w-32 h-32 rounded-lg object-cover"
+                      className="w-full md:w-48 h-40 rounded-lg object-cover"
                     />
                     <div className="flex flex-col justify-between items-center text-sm my-2">
                       <p className="font-medium flex items-center gap-1 text-sm md:text-md">
