@@ -7,7 +7,6 @@ import { ClipLoader } from 'react-spinners'
 
 const ProductImages = ({ productId }: { productId: string }) => {
   const { data, isLoading, isError, isFetched } = useProductImages(productId)
-  console.log(data)
   const { deleteFile, deleteFileIsLoading } = useUploadImage()
   return (
     <div className="my-5 md:mt-14">

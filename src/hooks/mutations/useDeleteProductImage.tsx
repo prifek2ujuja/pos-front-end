@@ -14,7 +14,7 @@ const useDeleteProductImage = () => {
     onError: (e: AxiosError) => {
       const errorResponse = e.response?.data as ErrorResponse
       toast.error(errorResponse.message)
-      toast.success('Unable to delete image data')
+      toast.error('Unable to delete image data')
     },
     onSuccess: (data, variables) => {
       toast.success('Image data deleted')

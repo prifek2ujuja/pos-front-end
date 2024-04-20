@@ -39,6 +39,7 @@ export type User = {
   avatar: string | null
   refreshToken: string | null
   id: string | null
+  orderCount?: number
 }
 
 export type Auth = User & {

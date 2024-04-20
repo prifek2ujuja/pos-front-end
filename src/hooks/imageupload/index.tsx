@@ -85,10 +85,12 @@ const useUploadImage = () => {
     deleteObject(fileRef)
       .then(() => {
         // File deleted successfully
+        toast.success('File deleted from cloud', { icon: '🗑️' })
         deleteProductImage({ productImageId })
       })
       .catch((error) => {
         console.log('error', error)
+        toast.error('Error deleting file from cloud', { icon: '❌' })
         // Uh-oh, an error occurred!
         switch (error.code) {
           case 'storage/unauthorized':

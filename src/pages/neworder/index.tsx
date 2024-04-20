@@ -103,7 +103,7 @@ const Index = () => {
 
     orderForm.reset()
   }
-  console.log(products)
+
   return (
     <div className="w-full poppins-regular">
       <div className="mx-auto max-w-6xl">
@@ -133,7 +133,7 @@ const Index = () => {
                     type="button"
                     key={crypto.randomUUID()}
                     className={`relative flex flex-col p-0 text-black hover:text-white w-full md:w-32 rounded-lg  ${
-                      selected ? 'border-sky border-2 shadow-xl' : 'border-sky border-2 shadow-lg'
+                      selected ? ' border-1 border-sky shadow-xl' : ' border-2 shadow-lg'
                     } h-fit  bg-light-gray cursor-pointer`}
                     onClick={() => addToCart(product)}
                   >
@@ -267,7 +267,7 @@ const Index = () => {
                       <th className="text-left font-medium text-sm">Total</th>
                     </tr>
                   </thead>
-                  <tbody>
+                  <tbody className="w-full">
                     {orderItems.value.map((item) => (
                       <tr key={item.product._id}>
                         <td className="text-sm">
