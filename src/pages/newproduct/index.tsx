@@ -119,20 +119,15 @@ const Index = () => {
                       {...getInputProps()}
                       className="w-full cursor-pointer flex items-center justify-center bg-light-gray rounded-xl h-40"
                     />
-                    {/* {downloadURL ? (
+                    {downloadURL ? (
                       <img src={downloadURL} alt="product-image" className="h-full object-cover rounded-lg w-full" />
-                    ) : state.productImage ? (
-                      <img
-                        src={state.productImage}
-                        alt="product-image"
-                        className="h-full object-cover rounded-lg w-full"
-                      />
-                    ) : ( */}
-                    <div className="flex flex-col items-center justify-center gap-6 h-full">
-                      <MdAddAPhoto size={40} className="text-sky" />
-                      <p className="text-center">Drag and drop an image of click to select image</p>
-                      {uploadProgress !== 0 && <p className="text-base lg:text-lg text-center">{uploadProgress}%</p>}
-                    </div>
+                    ) : (
+                      <div className="flex flex-col items-center justify-center gap-6 h-full">
+                        <MdAddAPhoto size={40} className="text-sky" />
+                        <p className="text-center">Drag and drop an image of click to select image</p>
+                        {uploadProgress !== 0 && <p className="text-base lg:text-lg text-center">{uploadProgress}%</p>}
+                      </div>
+                    )}
 
                     {imageError && <p className="text-red-500 text-sm font-medium">{imageError}</p>}
                   </div>
