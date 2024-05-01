@@ -38,15 +38,26 @@ const Aside = () => {
         <p>Products</p>
       </Link>
       {(role === 'admin' || role === 'manager') && (
-        <Link
-          to="/users"
-          className={`flex items-center font-medium rounded-xl gap-2 p-2 ${
-            pathname.includes('users') ? 'text-sky bg-primary' : ''
-          }`}
-        >
-          <TbUsersGroup />
-          <p>Users</p>
-        </Link>
+        <>
+          <Link
+            to="/reports"
+            className={`flex items-center font-medium rounded-xl gap-2 p-2 ${
+              pathname.includes('report') ? 'text-sky bg-primary' : ''
+            }`}
+          >
+            <TbUsersGroup />
+            <p>Reports</p>
+          </Link>
+          <Link
+            to="/users"
+            className={`flex items-center font-medium rounded-xl gap-2 p-2 ${
+              pathname.includes('users') ? 'text-sky bg-primary' : ''
+            }`}
+          >
+            <TbUsersGroup />
+            <p>Users</p>
+          </Link>
+        </>
       )}
 
       <Link

@@ -1,5 +1,4 @@
 import DataTable from './DataTable'
-import useProductsTable from 'src/hooks/tableColumns/useProductsTable'
 import useLowStock from 'src/hooks/queries/useLowStock'
 import { LuHeartPulse } from 'react-icons/lu'
 import { Product } from 'src/types'
@@ -13,7 +12,7 @@ const StockOutput = () => {
   }
 
   return (
-    <div className="w-full rounded-2xl p-2 bg-white shadow-xl">
+    <div className="w-full rounded-2xl p-2 bg-white shadow-xl mt-10">
       <h1 className="my-5 font-medium">Stock alert</h1>
       <DataTable
         columns={tableColumns}

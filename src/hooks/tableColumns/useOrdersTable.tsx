@@ -35,10 +35,14 @@ const useOrdersTable = () => {
         const orderItems: OrderItem[] = row.getValue('orderItems')
         return (
           <div className="flex -space-x-4 overflow-hidden">
-            {orderItems.map((item, index) => (
+            {orderItems.map((item) => (
               <img
                 key={crypto.randomUUID()}
-                src={item.product.productImage}
+                src={
+                  item.product.productImages && item.product.productImages[0]
+                    ? item.product.productImages[0].imageUrl
+                    : item.product.productImage
+                }
                 className={`rounded-full h-10 inline-block w-10`}
               />
             ))}

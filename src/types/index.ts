@@ -55,6 +55,7 @@ export type DailyProductReport = {
   addedStock: number
   sales: number
   createdAt: string
+  productInfo: Product[]
 }
 
 export type DailyReport = {

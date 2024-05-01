@@ -4,7 +4,6 @@ import useSalesLeaderboard from 'src/hooks/queries/useSalesLeaderboard'
 
 const SalesLeaderboard = () => {
   const { data, isLoading } = useSalesLeaderboard()
-  console.log(data)
   return (
     <div className="rounded-2xl p-2 bg-white shadow-xl w-full lg:p-4">
       <div className="flex flex-col justify-between w-full">
@@ -21,7 +20,7 @@ const SalesLeaderboard = () => {
             <div className="flex flex-col gap-1">
               {data?.map((user, index) => (
                 <div className="flex items-center justify-between" key={crypto.randomUUID()}>
-                  <p className="capitalize text-sm">{user.userName}</p>
+                  <p className="capitalize text-sm font-medium">{user.userName}</p>
                   <div className="flex items-center gap-2">
                     <p>{user.orderCount}</p>
                     {index === 0 ? (

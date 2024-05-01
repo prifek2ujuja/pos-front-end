@@ -1,4 +1,4 @@
-import { Route, RouteObject, createBrowserRouter } from 'react-router-dom'
+import { RouteObject, createBrowserRouter } from 'react-router-dom'
 import ErrorPage from './components/error-page'
 import { getDefaultLayout } from './components/layout'
 import HomePage from './pages/home'
@@ -13,6 +13,7 @@ import Signup from './pages/signup'
 import Login from './pages/login'
 import Users from './pages/users'
 import Report from './pages/report'
+import Reports from './pages/reports'
 
 export const routerObjects: RouteObject[] = [
   {
@@ -60,7 +61,11 @@ export const routerObjects: RouteObject[] = [
     Component: Users,
   },
   {
-    path: '/report/:timestamp',
+    path: '/reports',
+    Component: Reports,
+  },
+  {
+    path: '/report/:id',
     Component: Report,
   },
 ]
