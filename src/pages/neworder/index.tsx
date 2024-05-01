@@ -19,13 +19,15 @@ import { FaArrowLeft } from 'react-icons/fa'
 import { FaCircleUser } from 'react-icons/fa6'
 import { BsCashStack } from 'react-icons/bs'
 import { IoSearchSharp } from 'react-icons/io5'
-import { TbShoppingCartMinus } from 'react-icons/tb'
 import { parsePhoneNumber } from 'libphonenumber-js'
+import ProductCard from './components/ProductCard'
+import OrderItemsSummary from './components/OrderItemsSummary'
 
 type FormValues = z.infer<typeof createOrderSchema>
 const Index = () => {
   const [orderItemsError, setOrderItemsError] = useState<string>()
   const { data: products, isSuccess: productsIsSuccess } = useListProducts()
+  const [searchResults, setSearchResults] = useState<Product[]>([])
   const { state } = useLocation()
   const navigate = useNavigate()
   const [paymentMode, setPaymentMode] = useState<string>(() => {
@@ -133,57 +135,62 @@ const Index = () => {
           </Button>
           <h1 className="text-lg font-medium">New sale</h1>
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2">
-          <div className="flex flex-col gap-3 lg:col-span-2 bg-white rounded-2xl shadow-xl p-2 md:p-4 min-h-fit h-full">
-            <div className="relative mb-4 bg-card rounded-md flex items-center shadow-lg">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2 lg:gap-4">
+          <div className="flex flex-col gap-2 lg:gap-4 lg:col-span-2">
+            <div className="relative bg-white rounded-2xl p-2 flex items-center shadow-lg">
               <input
                 placeholder="Search product name"
-                className="w-full focus:border-none rounded-md p-1 border bg-light-gray focus:outline-none"
+                className="w-full focus:border-none rounded-2xl p-1 focus:outline-none"
+                onChange={(e) => {
+                  if (e.target.value) {
+                    const results = products?.filter((prod) => prod.name.includes(e.target.value))
+                    if (results) setSearchResults(results)
+                  } else {
+                    setSearchResults([])
+                  }
+                }}
               />
               <IoSearchSharp className="absolute right-3 text-sky" />
             </div>
-            {orderItemsError && <p className="text-red-500 text-sm my-2 font-medium">{orderItemsError}</p>}
-            <div className="h-full grid grid-cols-2 md:grid-cols-3 gap-3 md:gap-5 justify-center items-center">
-              {products?.map((product) => {
-                const selected = orderItems.value.find((item) => item.product._id === product._id)
-                return (
-                  <Button
-                    type="button"
-                    key={crypto.randomUUID()}
-                    className={`relative flex flex-col p-0 text-black hover:text-white w-full md:w-48 rounded-lg  ${
-                      selected ? ' border-1 border-sky shadow-xl' : ' border-2 shadow-lg'
-                    } h-fit  bg-light-gray cursor-pointer`}
-                    onClick={() => addToCart(product)}
-                  >
-                    <img
-                      src={
-                        product.productImages && product.productImages[0]
-                          ? product.productImages[0].imageUrl
-                          : product.productImage
-                      }
-                      alt="product-image"
-                      className="w-full md:w-48 h-40 rounded-lg object-cover"
-                    />
-                    <div className="flex flex-col justify-between items-center text-sm my-2">
-                      <p className="font-medium flex items-center gap-1 text-sm md:text-md">
-                        {product.name}{' '}
-                        {selected && (
-                          <div className="bg-sky rounded-full h-4 w-4 text-xs text-white">{selected.quantity}</div>
-                        )}
-                      </p>
-                      <p className="text-sky font-medium text-sm md:text-md">ksh {product.price}</p>
-                    </div>
-                  </Button>
-                )
-              })}
+
+            <div className="flex flex-col gap-3  bg-white rounded-2xl shadow-xl p-2 md:p-4 min-h-fit h-full">
+              {orderItemsError && <p className="text-red-500 text-sm my-2 font-medium">{orderItemsError}</p>}
+              {searchResults.length > 0 ? (
+                <div className="h-full grid grid-cols-2 md:grid-cols-3 gap-3 md:gap-5 justify-center">
+                  {searchResults?.map((product) => {
+                    const selected = orderItems.value.find((item) => item.product._id === product._id)
+                    return (
+                      <ProductCard
+                        addToCart={addToCart}
+                        product={product}
+                        selected={selected}
+                        key={crypto.randomUUID()}
+                      />
+                    )
+                  })}
+                </div>
+              ) : (
+                <div className="h-full grid grid-cols-2 md:grid-cols-3 gap-3 md:gap-5 justify-center">
+                  {products?.map((product) => {
+                    const selected = orderItems.value.find((item) => item.product._id === product._id)
+                    return (
+                      <ProductCard
+                        addToCart={addToCart}
+                        product={product}
+                        selected={selected}
+                        key={crypto.randomUUID()}
+                      />
+                    )
+                  })}
+                </div>
+              )}
             </div>
           </div>
-
           <Form {...orderForm}>
             <form
               action=""
               onSubmit={orderForm.handleSubmit(onFormReadySubmit)}
-              className="p-2 relative rounded-2xl bg-white shadow-xl md:p-4 h-full"
+              className="p-2 relative rounded-2xl bg-white shadow-xl md:p-4 h-fit"
             >
               <div className="flex flex-col gap-3 mb-3">
                 <div className="flex flex-col ">
@@ -193,11 +200,11 @@ const Index = () => {
                     render={({ field }) => (
                       <FormItem className="w-full flex gap-3">
                         <FormControl>
-                          <div className="  w-full relative mb-4 bg-card  rounded-md flex items-center shadow-lg">
+                          <div className="w-full relative mb-4 bg-card  rounded-2xl flex items-center shadow-2xl">
                             <Input
                               placeholder="Customer name"
                               {...field}
-                              className="w-full focus:border-none rounded-md p-1  bg-light-gray focus:outline-none"
+                              className="w-full focus:border-none rounded-2xl p-1  bg-light-gray focus:outline-none"
                             />
                             <FaCircleUser className="absolute right-3 text-sky" />
                           </div>
@@ -212,11 +219,11 @@ const Index = () => {
                     render={({ field }) => (
                       <FormItem className="gap-3 w-full focus:outline-sky ">
                         <FormControl>
-                          <div className="w-full relative mb-4 bg-card rounded-md flex items-center shadow-lg">
+                          <div className="w-full relative mb-4 bg-card rounded-2xl flex items-center shadow-lg">
                             <Input
                               placeholder="Customer phone number"
                               {...field}
-                              className="w-full focus:border-none rounded-md p-1 bg-light-gray focus:outline-none"
+                              className="w-full focus:border-none rounded-2xl p-1 bg-light-gray focus:outline-none"
                             />
                             <MdOutlinePhoneEnabled className="absolute right-3 text-sky" />
                           </div>
@@ -272,7 +279,7 @@ const Index = () => {
                         {/* <FormLabel className="mb-2">Transaction code</FormLabel> */}
                         <FormControl>
                           <Input
-                            className="focus:border-none bg-light-gray shadow-lg"
+                            className="focus:border-none bg-light-gray shadow-lg rounded-2xl"
                             placeholder="Transaction code"
                             {...field}
                           />
@@ -284,46 +291,7 @@ const Index = () => {
                   />
                 )}
               </div>
-              <div className="mb-10 h-72 cursor-pointer">
-                <table className="w-full">
-                  <thead>
-                    <tr>
-                      <th className="text-left font-medium text-sm">Product</th>
-                      <th className="text-left font-medium text-sm">Price</th>
-                      <th className="text-left font-medium text-sm">Quantity</th>
-                      <th className="text-left font-medium text-sm">Total</th>
-                    </tr>
-                  </thead>
-                  <tbody className="w-full">
-                    {orderItems.value.map((item) => (
-                      <tr key={item.product._id}>
-                        <td className="text-sm">
-                          <div className="flex items-center gap-2">
-                            <img
-                              src={item.product.productImage}
-                              className="h-5 w-5 rounded-full hidden md:block"
-                              alt="product-image"
-                            />
-                            <p>{item.product.name}</p>
-                          </div>
-                        </td>
-                        <td className="text-sm">{item.product.price}</td>
-                        <td className="text-sm text-center">{item.quantity}</td>
-                        <td className="text-sm">{parseInt(item.product.price) * item.quantity}</td>
-                        <td>
-                          <button
-                            type="button"
-                            onClick={() => removeFromCart(item.product._id)}
-                            className="text-red-500 rounded-lg p-3 hover:bg-sky hover:text-white"
-                          >
-                            <TbShoppingCartMinus />
-                          </button>
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
+              <OrderItemsSummary orderItems={orderItems} removeFromCart={removeFromCart} />
               <div className="flex w-full flex-col md:flex-row gap-4 p-2 absolute bottom-0 left-0">
                 {/* <h1 className="text-gray font-medium mb-4">Payment</h1> */}
                 <Button type="submit" className="w-1/2 bg-sky" disabled={createOrderIsLoading}>
