@@ -30,11 +30,11 @@ const useOrdersTable = () => {
   }>[] = [
     {
       accessorKey: 'orderItems',
-      header: () => <p className="text-sm md:text-base text-primary font-semibold">Order items</p>,
+      header: () => <p className="text-sm md:text-base text-primary font-medium">Order items</p>,
       cell: ({ row }) => {
         const orderItems: OrderItem[] = row.getValue('orderItems')
         return (
-          <div className="flex -space-x-4 overflow-hidden">
+          <div className="flex -space-x-4 overflow-hidden max-w-[200px]">
             {orderItems.map((item) => (
               <img
                 key={crypto.randomUUID()}
@@ -43,7 +43,7 @@ const useOrdersTable = () => {
                     ? item.product.productImages[0].imageUrl
                     : item.product.productImage
                 }
-                className={`rounded-full h-10 inline-block w-10`}
+                className={`rounded-full h-10 inline-block object-cover w-10`}
               />
             ))}
           </div>
@@ -52,7 +52,7 @@ const useOrdersTable = () => {
     },
     {
       accessorKey: 'createdAt',
-      header: () => <p className="text-sm md:text-base text-primary font-semibold">Date</p>,
+      header: () => <p className="text-sm md:text-base text-primary font-medium">Date</p>,
       cell: ({ row }) => {
         const date: string = row.getValue('createdAt')
         return <p className="text-sm">{dayjs(date).format('YYYY-MM-DD')}</p>
@@ -60,23 +60,24 @@ const useOrdersTable = () => {
     },
     {
       accessorKey: 'orderTotal',
-      header: () => <p className="text-sm md:text-base text-primary font-semibold">Order Total</p>,
+      header: () => <p className="text-sm md:text-base text-primary font-medium">Order Total</p>,
       cell: ({ row }) => {
         const orderTotal: number = row.getValue('orderTotal')
-        return <p className="">Ksh. {orderTotal}</p>
+        const formattedTotal = orderTotal.toLocaleString('en-US')
+        return <p className="">Ksh {formattedTotal}</p>
       },
     },
     {
       accessorKey: 'paymentMode',
-      header: () => <p className="text-sm md:text-base text-primary font-semibold">Payment</p>,
+      header: () => <p className="text-sm md:text-base text-primary font-medium">Payment</p>,
       cell: ({ row }) => {
         const paymentMode: string = row.getValue('paymentMode')
-        return <p className="">{paymentMode}</p>
+        return <p className="">{paymentMode || 'paystack'}</p>
       },
     },
     {
       accessorKey: 'delivery',
-      header: () => <p className="text-sm md:text-base text-primary font-semibold">Delivery</p>,
+      header: () => <p className="text-sm md:text-base text-primary font-medium">Delivery</p>,
       cell: ({ row }) => {
         const delivery: string = row.getValue('delivery')
         return <p className="">{delivery}</p>
@@ -84,23 +85,23 @@ const useOrdersTable = () => {
     },
     {
       accessorKey: 'refCode',
-      header: () => <p className="text-sm md:text-base text-primary font-semibold">Ref code</p>,
+      header: () => <p className="text-sm md:text-base text-primary font-medium">Ref code</p>,
       cell: ({ row }) => {
         const refCode: string = row.getValue('refCode')
-        return <p className="">{refCode}</p>
+        return <p className="">{refCode || 'N/A'}</p>
       },
     },
     {
       accessorKey: 'salesPerson',
-      header: () => <p className="text-sm md:text-base text-primary font-semibold">Sales</p>,
+      header: () => <p className="text-sm md:text-base text-primary font-medium">Sales</p>,
       cell: ({ row }) => {
         const salesPerson: User = row.getValue('salesPerson')
-        return <p className="">{salesPerson?.userName}</p>
+        return <p className="">{salesPerson?.userName || 'N/A'}</p>
       },
     },
     {
       accessorKey: '_id',
-      header: () => <p className="text-sm md:text-base text-primary font-semibold">Action</p>,
+      header: () => <p className="text-sm md:text-base text-primary font-medium">Action</p>,
       cell: ({ row }) => {
         const orderId: string = row.getValue('_id')
         const orderItems = row.getValue('orderItems')

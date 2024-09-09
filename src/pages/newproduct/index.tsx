@@ -20,6 +20,9 @@ import { useCallback, useState } from 'react'
 import { MdAddAPhoto } from 'react-icons/md'
 import ProductImages from './components/ProductImages'
 import useDecodeToken from 'src/hooks/useDecodeToken'
+import { Badge } from 'src/components/ui/badge'
+import { IoMdClose } from 'react-icons/io'
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from 'src/components/ui/select'
 
 type FormValues = z.infer<typeof createProductSchema>
 const Index = () => {
@@ -27,14 +30,17 @@ const Index = () => {
   const tokenData = useDecodeToken()
   const role = tokenData?.role
   const [imageError, setImageError] = useState<string>()
+  const [benefits, setBenefits] = useState<string[]>(state ? state.benefits : [])
+  const [benefitInputText, setBenefitInputText] = useState<string>('')
+  const [benefitsError, setBenefitsError] = useState<string>()
 
   const { uploadFile, downloadURL, imagePath, setDownloadUrl } = useUploadImage()
   const onDrop = useCallback(
     (acceptedFiles: Blob[]) => {
-      if (acceptedFiles[0].size > 3145728) {
-        setImageError('File size exceeds limit of 3MB')
-        return
-      }
+      // if (acceptedFiles[0].size > 3145728) {
+      //   setImageError('File size exceeds limit of 3MB')
+      //   return
+      // }
       setImageError('')
       uploadFile(acceptedFiles[0])
     },
@@ -50,6 +56,7 @@ const Index = () => {
       productName: state ? state.name : '',
       productPrice: state ? parseInt(state.price) : 0,
       stock: state ? parseInt(state.stock) : 0,
+      category: state ? state.category : '',
     },
   })
 
@@ -65,6 +72,7 @@ const Index = () => {
       name: data.productName,
       price: data.productPrice,
       stock: data.stock,
+      category: data.category,
     }
     // if (downloadURL && imagePath) {
     //   payload.imageUrl = downloadURL
@@ -77,6 +85,11 @@ const Index = () => {
         setImageError('Please upload an image for the product')
         return
       }
+
+      if (benefits.length === 0) {
+        setBenefitsError('Please provide the benefits of this product in bullet point format')
+        return
+      }
       await createProduct({
         productDescription: data.productDescription,
         productName: data.productName,
@@ -84,9 +97,13 @@ const Index = () => {
         stock: data.stock,
         imageUrl: downloadURL,
         imagePath,
+        benefits,
+        category: data.category,
       })
       orderForm.reset()
       setDownloadUrl('')
+      setBenefits([])
+      setBenefitsError('')
       return
     }
   }
@@ -176,7 +193,30 @@ const Index = () => {
                   )}
                 />
               </div>
-
+              <div className="flex flex-col md:flex-row mb-4 gap-4">
+                <FormField
+                  control={orderForm.control}
+                  name="category"
+                  render={({ field }) => (
+                    <FormItem className="mb-4 w-full">
+                      <FormLabel>Category</FormLabel>
+                      <Select onValueChange={field.onChange} defaultValue={field.value}>
+                        <FormControl>
+                          <SelectTrigger>
+                            <SelectValue placeholder="Select a category" />
+                          </SelectTrigger>
+                        </FormControl>
+                        <SelectContent className="poppins-regular">
+                          <SelectItem value="therapy">Therapy</SelectItem>
+                          <SelectItem value="supplement">Supplement</SelectItem>
+                        </SelectContent>
+                      </Select>
+                      <FormDescription>Choose the product category.</FormDescription>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
               <div className="flex flex-col md:flex-row mb-4 gap-4">
                 <FormField
                   control={orderForm.control}
@@ -214,6 +254,49 @@ const Index = () => {
                     </FormItem>
                   )}
                 />
+              </div>
+              <div className="flex flex-col w-full">
+                <FormItem className="mb-4 w-full">
+                  <FormLabel className="mb-2">
+                    Benefits {benefits.length > 0 && <span className="text-gray ml-2">Click on badge to remove</span>}
+                  </FormLabel>
+                  <div className="flex flex-wrap gap-2 my-6">
+                    {benefits.map((benefit, index) => (
+                      <Badge
+                        key={index}
+                        onClick={() => setBenefits((prev) => prev.filter((item) => item !== benefit))}
+                        className="cursor-pointer px-2 text-sky  border-sky flex items-center"
+                        variant="outline"
+                      >
+                        <p>{benefit}</p>
+                        <span className="text-black">
+                          <IoMdClose />
+                        </span>
+                      </Badge>
+                    ))}
+                  </div>
+                  <div className="flex gap-2">
+                    <Input
+                      placeholder="Add a benefit"
+                      value={benefitInputText}
+                      onChange={(e) => setBenefitInputText(e.target.value)}
+                      className="focus:border-none"
+                    />
+                    <Button
+                      type="button"
+                      onClick={() => {
+                        if (!benefits.includes(benefitInputText) && benefitInputText.length > 1) {
+                          setBenefits([...benefits, benefitInputText])
+                          setBenefitInputText('')
+                        }
+                      }}
+                    >
+                      Add
+                    </Button>
+                  </div>
+                  <FormDescription>Add a text and they will appear as badges above.</FormDescription>
+                  <FormMessage />
+                </FormItem>
               </div>
               <div className="flex-col gap-2 items-center">
                 <div className="my-10 flex flex-col md:flex-row gap-4">

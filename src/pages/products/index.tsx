@@ -13,6 +13,8 @@ const Index = () => {
   const tokenData = useDecodeToken()
   const role = tokenData?.role
 
+  console.log(data)
+
   return (
     <div className="p-2 bg-white rounded-2xl w-full">
       <div className="flex justify-between items-center">

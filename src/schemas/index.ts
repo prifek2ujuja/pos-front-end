@@ -14,6 +14,7 @@ export const createProductSchema = z.object({
   productPrice: z.number(),
   productDescription: z.string().min(10).max(600),
   stock: z.number(),
+  category: z.string(),
 })
 
 export const signupSchema = z

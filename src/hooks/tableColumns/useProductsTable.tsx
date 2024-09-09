@@ -34,28 +34,37 @@ const useProductsTable = () => {
         const productImages: { imagePath: string; imageUrl: string }[] = row.getValue('productImages')
         const productAvatar = 'https://avatars.githubusercontent.com/u/62663992'
         const source = productImages.length > 0 ? productImages[0].imageUrl : productAvatar
-        return <img src={source} alt="product-image" className="h-10 w-10 rounded-full" />
+        return <img src={source} alt="product-image" className="h-10 w-10 object-cover rounded-full" />
       },
     },
     {
       accessorKey: 'name',
-      header: () => <p className="text-sm md:text-base text-primary font-semibold">Product</p>,
+      header: () => <p className="text-sm md:text-base text-primary font-medium">Name</p>,
       cell: ({ row }) => {
         const product: string = row.getValue('name')
-        return <p className="text-sm">{product}</p>
+        return <p className="text-sm truncate max-w-[100px]">{product}</p>
+      },
+    },
+    {
+      accessorKey: 'category',
+      header: () => <p className="text-sm md:text-base text-primary font-medium">Category</p>,
+      cell: ({ row }) => {
+        const category: string = row.getValue('category')
+        return <p className="text-sm">{category}</p>
       },
     },
     {
       accessorKey: 'price',
-      header: () => <p className="text-sm md:text-base text-primary font-semibold">Price</p>,
+      header: () => <p className="text-sm md:text-base text-primary font-medium">Price</p>,
       cell: ({ row }) => {
         const price: string = row.getValue('price')
-        return <p className="text-sm">ksh {price}</p>
+        const formattedPrice = parseInt(price).toLocaleString('en-US')
+        return <p className="text-sm">ksh {formattedPrice}</p>
       },
     },
     {
       accessorKey: 'stock',
-      header: () => <p className="text-sm md:text-base text-primary font-semibold">Stock</p>,
+      header: () => <p className="text-sm md:text-base text-primary font-medium">Stock</p>,
       cell: ({ row }) => {
         const stock: string = row.getValue('stock')
         const productId: string = row.getValue('_id')
@@ -72,7 +81,7 @@ const useProductsTable = () => {
     },
     {
       accessorKey: 'description',
-      header: () => <p className="text-sm md:text-base text-primary font-semibold">Description</p>,
+      header: () => <p className="text-sm md:text-base text-primary font-medium">Description</p>,
       cell: ({ row }) => {
         const description: string = row.getValue('description')
         return <p className="text-sm truncate max-w-[200px]">{description}</p>
@@ -80,7 +89,7 @@ const useProductsTable = () => {
     },
     {
       accessorKey: '_id',
-      header: () => <p className="text-sm md:text-base text-primary font-semibold">Action</p>,
+      header: () => <p className="text-sm md:text-base text-primary font-medium">Action</p>,
       cell: ({ row }) => {
         const productId: string = row.getValue('_id')
         const description: string = row.getValue('description')

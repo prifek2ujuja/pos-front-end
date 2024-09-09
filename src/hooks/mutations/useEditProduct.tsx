@@ -13,6 +13,7 @@ type SubmitData = {
     stock?: number
     imageUrl?: string
     imagePath?: string
+    category?: string
   }
 }
 

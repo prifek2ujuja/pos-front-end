@@ -11,6 +11,8 @@ type SubmitData = {
   stock: number
   imageUrl: string
   imagePath: string
+  benefits: string[]
+  category: string
 }
 
 const useCreateProduct = () => {
