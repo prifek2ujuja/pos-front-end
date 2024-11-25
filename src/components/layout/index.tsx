@@ -4,6 +4,7 @@ import { Suspense } from 'react'
 import { PropagateLoader } from 'react-spinners'
 import BottomNav from 'src/pages/dashboard/components/BottomNav'
 import LoginRedirect from './components/LoginRedirect'
+import SideBar from './components/SideBar'
 
 export const getNoneLayout = (page: React.ReactElement) => page
 

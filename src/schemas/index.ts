@@ -4,7 +4,7 @@ export const passwordRegex = /^(?=.*[A-Z])(?=.*\d)[A-Za-z\d\W]{8,}$/
 
 export const createOrderSchema = z.object({
   customerName: z.string().min(2).max(15).optional(),
-  customerPhone: z.string().min(2).max(15),
+  customerPhone: z.string().min(2).max(15).optional(),
   paymentMode: z.string(),
   refCode: z.string().optional(),
 })
@@ -46,9 +46,13 @@ export const loginSchema = z.object({
   password: z.string().min(1, { message: 'Password is required' }),
 })
 
-export const editProductStockSchema = z.object({
+export const editBackOfficeStockSchema = z.object({
   stock: z.number().min(1),
   action: z.string(),
+})
+
+export const addToStoreSchema = z.object({
+  amount: z.number().min(1),
 })
 
 export const editUserSchema = z.object({

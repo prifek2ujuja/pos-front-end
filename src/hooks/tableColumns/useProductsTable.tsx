@@ -3,7 +3,7 @@ import { AiOutlineDelete } from 'react-icons/ai'
 import { FaRegEdit } from 'react-icons/fa'
 import { Button } from 'src/components/ui/button'
 import useDeleteProduct from '../mutations/useDeleteProduct'
-import { Product } from 'src/types'
+import { Product, ProductImage } from 'src/types'
 import { useNavigate } from 'react-router-dom'
 import EditStock from 'src/pages/products/components/EditStock'
 import useDecodeToken from '../useDecodeToken'
@@ -39,7 +39,7 @@ const useProductsTable = () => {
     },
     {
       accessorKey: 'name',
-      header: () => <p className="text-sm md:text-base text-primary font-medium">Name</p>,
+      header: () => <p className="text-sm uppercase text-primary font-medium">Name</p>,
       cell: ({ row }) => {
         const product: string = row.getValue('name')
         return <p className="text-sm truncate max-w-[100px]">{product}</p>
@@ -47,7 +47,7 @@ const useProductsTable = () => {
     },
     {
       accessorKey: 'category',
-      header: () => <p className="text-sm md:text-base text-primary font-medium">Category</p>,
+      header: () => <p className="text-sm uppercase text-primary font-medium">Category</p>,
       cell: ({ row }) => {
         const category: string = row.getValue('category')
         return <p className="text-sm">{category}</p>
@@ -55,7 +55,7 @@ const useProductsTable = () => {
     },
     {
       accessorKey: 'price',
-      header: () => <p className="text-sm md:text-base text-primary font-medium">Price</p>,
+      header: () => <p className="text-sm uppercase text-primary font-medium">Price</p>,
       cell: ({ row }) => {
         const price: string = row.getValue('price')
         const formattedPrice = parseInt(price).toLocaleString('en-US')
@@ -64,16 +64,49 @@ const useProductsTable = () => {
     },
     {
       accessorKey: 'stock',
-      header: () => <p className="text-sm md:text-base text-primary font-medium">Stock</p>,
+      header: () => <p className="text-sm uppercase text-primary font-medium">Store</p>,
       cell: ({ row }) => {
-        const stock: string = row.getValue('stock')
-        const productId: string = row.getValue('_id')
-        const productName: string = row.getValue('name')
+        const product: Product = row.original
+        console.log('product :', product)
+        const backOfficeStock: string = product.stock.toString()
+        const inStoreStock: string = product.inStore.toString()
+        const productId: string = product._id
+        const productName: string = product.name
         return (
           <div className="flex gap-1 items-center">
-            <p className="text-sm">{stock || 0}</p>
+            <p className="text-sm">{inStoreStock || 0}</p>
             {(role === 'manager' || role === 'admin') && (
-              <EditStock productId={productId} stock={parseInt(stock)} productName={productName} />
+              <EditStock
+                inStoreStock={parseInt(inStoreStock)}
+                productId={productId}
+                backOfficeStock={parseInt(backOfficeStock)}
+                productName={productName}
+              />
+            )}
+          </div>
+        )
+      },
+    },
+    {
+      accessorKey: 'stock',
+      header: () => <p className="text-sm uppercase text-primary font-medium">Back office</p>,
+      cell: ({ row }) => {
+        const product: Product = row.original
+        console.log('product :', product)
+        const backOfficeStock: string = product.stock.toString()
+        const inStoreStock: string = product.inStore.toString()
+        const productId: string = product._id
+        const productName: string = product.name
+        return (
+          <div className="flex gap-1 items-center">
+            <p className="text-sm">{backOfficeStock || 0}</p>
+            {(role === 'manager' || role === 'admin') && (
+              <EditStock
+                inStoreStock={parseInt(inStoreStock)}
+                productId={productId}
+                backOfficeStock={parseInt(backOfficeStock)}
+                productName={productName}
+              />
             )}
           </div>
         )
@@ -81,7 +114,7 @@ const useProductsTable = () => {
     },
     {
       accessorKey: 'description',
-      header: () => <p className="text-sm md:text-base text-primary font-medium">Description</p>,
+      header: () => <p className="text-sm uppercase text-primary font-medium">Description</p>,
       cell: ({ row }) => {
         const description: string = row.getValue('description')
         return <p className="text-sm truncate max-w-[200px]">{description}</p>
@@ -89,16 +122,17 @@ const useProductsTable = () => {
     },
     {
       accessorKey: '_id',
-      header: () => <p className="text-sm md:text-base text-primary font-medium">Action</p>,
+      header: () => <p className="text-sm uppercase text-primary font-medium">Action</p>,
       cell: ({ row }) => {
-        const productId: string = row.getValue('_id')
-        const description: string = row.getValue('description')
-        const stock: string = row.getValue('stock')
-        const name: string = row.getValue('name')
-        const productImages: { imagePath: string; imageUrl: string }[] = row.getValue('productImages')
+        const product: Product = row.original
+        const productId: string = product._id
+        const description: string = product.description
+        const stock: string = product.stock.toString()
+        const name: string = product.name
+        const productImages: ProductImage[] | undefined = product.productImages
         const productAvatar = 'https://avatars.githubusercontent.com/u/62663992'
-        const productImage = productImages.length > 0 ? productImages[0].imageUrl : productAvatar
-        const price: string = row.getValue('price')
+        const productImage = productImages && productImages.length > 0 ? productImages[0].imageUrl : productAvatar
+        const price: string = product.price.toString()
         const data = {
           productId,
           description,
@@ -106,6 +140,7 @@ const useProductsTable = () => {
           name,
           productImage,
           price,
+          benefits: product.benefits,
         }
         return (
           <div>

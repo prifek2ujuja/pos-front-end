@@ -19,14 +19,13 @@ import { FaArrowLeft } from 'react-icons/fa'
 import { FaCircleUser } from 'react-icons/fa6'
 import { BsCashStack } from 'react-icons/bs'
 import { IoSearchSharp } from 'react-icons/io5'
-import { parsePhoneNumber } from 'libphonenumber-js'
 import ProductCard from './components/ProductCard'
 import OrderItemsSummary from './components/OrderItemsSummary'
 
 type FormValues = z.infer<typeof createOrderSchema>
 const Index = () => {
   const [orderItemsError, setOrderItemsError] = useState<string>()
-  const { data: products, isSuccess: productsIsSuccess } = useListProducts()
+  const { data: products } = useListProducts()
   const [searchResults, setSearchResults] = useState<Product[]>([])
   const { state } = useLocation()
   const navigate = useNavigate()
@@ -34,16 +33,16 @@ const Index = () => {
     if (state) {
       return state.paymentMode
     } else {
-      return undefined
+      return 'cash'
     }
   })
   const { mutateAsync: createOrder, isLoading: createOrderIsLoading } = useCreateOrder()
-  const { mutateAsync: editOrder, isLoading: editOrderIsLoading } = useEditOrder()
+  const { mutateAsync: editOrder } = useEditOrder()
 
   const orderForm = useForm<FormValues>({
     resolver: zodResolver(createOrderSchema),
     defaultValues: {
-      paymentMode: state ? state.paymentMode : undefined,
+      paymentMode: state ? state.paymentMode : 'cash',
       refCode: state ? state.refCode : undefined,
     },
   })
@@ -86,11 +85,11 @@ const Index = () => {
       orderForm.setError('refCode', { message: 'Transaction code is required' })
       return
     }
-    const parsedPhone = parsePhoneNumber(data.customerPhone, 'KE')
-    if (!parsedPhone || !parsedPhone.isValid()) {
-      orderForm.setError('customerPhone', { message: 'Invalid phone number' })
-      return
-    }
+    // const parsedPhone = parsePhoneNumber(data.customerPhone, 'KE')
+    // if (!parsedPhone || !parsedPhone.isValid()) {
+    //   orderForm.setError('customerPhone', { message: 'Invalid phone number' })
+    //   return
+    // }
     if (state) {
       await editOrder({
         orderId: state.orderId,
@@ -102,7 +101,7 @@ const Index = () => {
           refCode: data.refCode || '',
           customer: {
             name: data.customerName,
-            phone: parsedPhone.number,
+            phone: data.customerPhone || '',
           },
         },
       })
@@ -115,7 +114,7 @@ const Index = () => {
         refCode: data.refCode || '',
         customer: {
           name: data.customerName,
-          phone: parsedPhone.number,
+          phone: data.customerPhone || '',
         },
       })
     }
@@ -135,29 +134,31 @@ const Index = () => {
           </Button>
           <h1 className="text-lg font-medium">New sale</h1>
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2 lg:gap-4">
-          <div className="flex flex-col gap-2 lg:gap-4 lg:col-span-2">
-            <div className="relative bg-white rounded-2xl p-2 flex items-center shadow-lg">
-              <input
-                placeholder="Search product name"
-                className="w-full focus:border-none rounded-2xl p-1 focus:outline-none"
-                onChange={(e) => {
-                  if (e.target.value) {
-                    const results = products?.filter((prod) => prod.name.includes(e.target.value))
-                    if (results) setSearchResults(results)
-                  } else {
-                    setSearchResults([])
-                  }
-                }}
-              />
-              <IoSearchSharp className="absolute right-3 text-sky" />
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-14 lg:gap-7">
+          <div className="flex flex-col gap-3 lg:gap-6 lg:col-span-2">
+            <div className="sticky top-5 z-50">
+              <div className="relative bg-white rounded-2xl p-2 flex items-center shadow-lg mb-7">
+                <input
+                  placeholder="Search product name"
+                  className="w-full focus:border-none rounded-2xl p-1 focus:outline-none"
+                  onChange={(e) => {
+                    if (e.target.value) {
+                      const results = products?.filter((prod) => prod.name.includes(e.target.value))
+                      if (results) setSearchResults(results)
+                    } else {
+                      setSearchResults([])
+                    }
+                  }}
+                />
+                <IoSearchSharp className="absolute right-3 text-sky" />
+              </div>
             </div>
 
-            <div className="flex flex-col gap-3  bg-white rounded-2xl shadow-xl p-2 md:p-4 min-h-fit h-full">
+            <div className="flex flex-col gap-3 p-2 md:p-4 min-h-fit h-full">
               {orderItemsError && <p className="text-red-500 text-sm my-2 font-medium">{orderItemsError}</p>}
               {searchResults.length > 0 ? (
-                <div className="h-full grid grid-cols-2 md:grid-cols-3 gap-3 md:gap-5 justify-center">
-                  {searchResults?.map((product) => {
+                <div className="h-full grid grid-cols-2 md:grid-cols-3 gap-5 md:gap-7 justify-center">
+                  {searchResults?.map((product: Product) => {
                     const selected = orderItems.value.find((item) => item.product._id === product._id)
                     return (
                       <ProductCard
@@ -170,7 +171,7 @@ const Index = () => {
                   })}
                 </div>
               ) : (
-                <div className="h-full grid grid-cols-2 md:grid-cols-3 gap-3 md:gap-5 justify-center">
+                <div className="h-full grid grid-cols-2 md:grid-cols-3 gap-5 md:gap-7 justify-center">
                   {products?.map((product) => {
                     const selected = orderItems.value.find((item) => item.product._id === product._id)
                     return (
@@ -190,61 +191,59 @@ const Index = () => {
             <form
               action=""
               onSubmit={orderForm.handleSubmit(onFormReadySubmit)}
-              className="p-2 relative rounded-2xl bg-white shadow-xl md:p-4 h-fit"
+              className="p-3 relative md:sticky md:top-5 rounded-2xl bg-white shadow-xl md:p-4 h-fit"
             >
-              <div className="flex flex-col gap-3 mb-3">
-                <div className="flex flex-col ">
-                  <FormField
-                    control={orderForm.control}
-                    name="customerName"
-                    render={({ field }) => (
-                      <FormItem className="w-full flex gap-3">
-                        <FormControl>
-                          <div className="w-full relative mb-4 bg-card  rounded-2xl flex items-center shadow-2xl">
-                            <Input
-                              placeholder="Customer name"
-                              {...field}
-                              className="w-full focus:border-none rounded-2xl p-1  bg-light-gray focus:outline-none"
-                            />
-                            <FaCircleUser className="absolute right-3 text-sky" />
-                          </div>
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                  <FormField
-                    control={orderForm.control}
-                    name="customerPhone"
-                    render={({ field }) => (
-                      <FormItem className="gap-3 w-full focus:outline-sky ">
-                        <FormControl>
-                          <div className="w-full relative mb-4 bg-card rounded-2xl flex items-center shadow-lg">
-                            <Input
-                              placeholder="Customer phone number"
-                              {...field}
-                              className="w-full focus:border-none rounded-2xl p-1 bg-light-gray focus:outline-none"
-                            />
-                            <MdOutlinePhoneEnabled className="absolute right-3 text-sky" />
-                          </div>
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                </div>
+              <div className="flex flex-col gap-3 my-3">
+                <FormField
+                  control={orderForm.control}
+                  name="customerName"
+                  render={({ field }) => (
+                    <FormItem className="w-full flex gap-3">
+                      <FormControl>
+                        <div className="w-full relative mb-4 bg-card  rounded-2xl flex items-center shadow-2xl">
+                          <Input
+                            placeholder="Customer name"
+                            {...field}
+                            className="w-full focus:border-none rounded-2xl p-2 h-14 border   bg-light-gray focus:outline-none"
+                          />
+                          <FaCircleUser className="absolute right-3 text-sky" />
+                        </div>
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={orderForm.control}
+                  name="customerPhone"
+                  render={({ field }) => (
+                    <FormItem className="gap-3 w-full focus:outline-sky ">
+                      <FormControl>
+                        <div className="w-full relative mb-4 bg-card rounded-2xl flex items-center shadow-lg">
+                          <Input
+                            placeholder="Customer phone number"
+                            {...field}
+                            className="w-full focus:border-none rounded-2xl p-2 h-14 border  bg-light-gray focus:outline-none"
+                          />
+                          <MdOutlinePhoneEnabled className="absolute right-3 text-sky" />
+                        </div>
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
               </div>
 
               {/*  */}
               <div>
-                <div className="flex items-center rounded-3xl justify-evenly bg-light-gray mt-4 mb-4 shadow-lg">
+                <div className="flex items-center rounded-3xl h-14 justify-evenly bg-light-gray mt-4 mb-4 shadow-lg">
                   <button
                     onClick={() => {
                       setPaymentMode('mpesa')
                       orderForm.setValue('paymentMode', 'mpesa')
                     }}
                     type="button"
-                    className={`flex items-center justify-center gap-2 rounded-3xl p-1 w-1/2 ${
+                    className={`flex items-center justify-center h-full gap-2 rounded-3xl p-1 w-1/2 ${
                       paymentMode === 'mpesa' ? 'bg-sky text-white' : ''
                     }`}
                   >
@@ -257,7 +256,7 @@ const Index = () => {
                       orderForm.setValue('paymentMode', 'cash')
                     }}
                     type="button"
-                    className={`flex items-center justify-center gap-2 rounded-3xl p-1 w-1/2 ${
+                    className={`flex items-center justify-center h-full gap-2 rounded-3xl p-1 w-1/2 ${
                       paymentMode === 'cash' ? 'bg-sky text-white' : ''
                     }`}
                   >
@@ -279,7 +278,7 @@ const Index = () => {
                         {/* <FormLabel className="mb-2">Transaction code</FormLabel> */}
                         <FormControl>
                           <Input
-                            className="focus:border-none bg-light-gray shadow-lg rounded-2xl"
+                            className="focus:border-none h-14 p-2 bg-light-gray shadow-lg rounded-2xl"
                             placeholder="Transaction code"
                             {...field}
                           />
@@ -292,14 +291,31 @@ const Index = () => {
                 )}
               </div>
               <OrderItemsSummary orderItems={orderItems} removeFromCart={removeFromCart} />
-              <div className="flex w-full flex-col md:flex-row gap-4 p-2 absolute bottom-0 left-0">
-                {/* <h1 className="text-gray font-medium mb-4">Payment</h1> */}
-                <Button type="submit" className="w-1/2 bg-sky" disabled={createOrderIsLoading}>
-                  {createOrderIsLoading ? <PropagateLoader color="#36d7b7" /> : 'Save order'}
-                </Button>
-                <Button className=" w-1/2 bg-white border border-red-500 text-red-500 hover:bg-red-500 hover:text-white">
-                  Clear order
-                </Button>
+              <div className="flex flex-col gap-3 items-center">
+                {createOrderIsLoading && (
+                  <div className="flex items-center justify-center w-full">
+                    <PropagateLoader className="bg-sky" color="#4e97fd" />
+                  </div>
+                )}
+                <div className="flex w-full gap-4 p-2  bottom-0 left-0">
+                  {/* <h1 className="text-gray font-medium mb-4">Payment</h1> */}
+                  <Button
+                    onClick={() => {
+                      orderItems.set([])
+                      orderForm.reset()
+                    }}
+                    className=" w-1/2 rounded-2xl bg-white border border-red-500 text-red-500 hover:bg-red-500 hover:text-white"
+                  >
+                    Clear order
+                  </Button>
+                  <Button
+                    type="submit"
+                    className="w-1/2 rounded-2xl bg-sky"
+                    disabled={createOrderIsLoading || (!orderForm.formState.isDirty && orderItems.value.length === 0)}
+                  >
+                    Save order
+                  </Button>
+                </div>
               </div>
             </form>
           </Form>

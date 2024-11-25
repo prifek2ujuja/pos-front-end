@@ -7,6 +7,8 @@ export type Product = {
   productImages?: ProductImage[]
   stock: number
   category: string
+  benefits: string[]
+  inStore: number
 }
 
 export type OrderItem = {
