@@ -4,7 +4,6 @@ import { Suspense } from 'react'
 import { PropagateLoader } from 'react-spinners'
 import BottomNav from 'src/pages/dashboard/components/BottomNav'
 import LoginRedirect from './components/LoginRedirect'
-import SideBar from './components/SideBar'
 
 export const getNoneLayout = (page: React.ReactElement) => page
 
@@ -25,7 +24,7 @@ export const getDefaultLayout = (page: React.ReactElement) => {
   return (
     <Suspense fallback={<PropagateLoader color="blue" />}>
       <div className="min-h-screen relative border poppins-regular bg-light-gray p-2 md:p-0">
-        <div className="max-w-6xl 2xl:max-w-7xl mx-auto sm:px-4">
+        <div className="w-full mx-auto md:px-4 max-w-[1800px]">
           <Header />
           <LoginRedirect />
           <div className="flex mx-auto mb-28 lg:mb-0">
