@@ -49,14 +49,17 @@ const useLowStockTable = () => {
       accessorKey: 'stock',
       header: () => <p className="text-sm md:text-base text-gray font-semibold">Stock</p>,
       cell: ({ row }) => {
-        const stock: string = row.getValue('stock')
-        const productId: string = row.getValue('_id')
-        const productName: string = row.getValue('name')
+        const { stock: backOfficeStock, inStore: inStoreStock, _id: productId, name: productName } = row.original
         return (
           <div className="flex gap-1 items-center">
-            <p className="text-sm">{stock || 0}</p>
+            <p className="text-sm">{inStoreStock || 0}</p>
             {(role === 'manager' || role === 'admin') && (
-              <EditStock productId={productId} stock={parseInt(stock)} productName={productName} />
+              <EditStock
+                productId={productId}
+                inStoreStock={inStoreStock}
+                backOfficeStock={backOfficeStock}
+                productName={productName}
+              />
             )}
           </div>
         )
