@@ -2,9 +2,20 @@
   "name": "vite-react-tailwind-starter",
   "private": true,
   "version": "0.0.0",
+  "electron": "electron .",
+  "dist": "electron-builder",
+  "main": "electron.js",
+  "build": {
+    "appId": "com.example.myapp",
+    "productName": "Pos",
+    "directories": {
+      "output": "dist"
+    }
+  },
   "scripts": {
     "prepare": "husky install",
     "dev": "vite",
+    "start": "electron .",
     "build": "npm run typecheck && vite build",
     "typecheck": "tsc --noEmit",
     "typecheck:watch": "tsc --noEmit --watch",
@@ -71,6 +82,9 @@
     "@typescript-eslint/parser": "^5.58.0",
     "@vitejs/plugin-react": "^3.1.0",
     "autoprefixer": "^10.4.14",
+    "electron": "^30.0.6",
+    "electron-builder": "^24.13.3",
+    "electron-is-dev": "^3.0.1",
     "eslint": "^8.38.0",
     "eslint-config-prettier": "^8.8.0",
     "eslint-import-resolver-typescript": "^3.5.5",

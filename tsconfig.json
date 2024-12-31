@@ -27,6 +27,6 @@
       "src/*": ["./src/*"]
     }
   },
-  "include": ["./src", "custom.d.ts"],
+  "include": ["./src", "custom.d.ts", "electron.js"],
   // "include": ["./src", "vite-env.d.ts"]
 }
