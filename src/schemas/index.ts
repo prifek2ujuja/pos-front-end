@@ -9,6 +9,14 @@ export const createOrderSchema = z.object({
   refCode: z.string().optional(),
 })
 
+export const filterOrderSchema = z.object({
+  status: z.string().optional(),
+  paymentMode: z.string().optional(),
+  startDate: z.date().optional(),
+  endDate: z.date().optional(),
+  refCode: z.string().optional(),
+})
+
 export const createProductSchema = z.object({
   productName: z.string().min(2).max(50),
   productPrice: z.number(),
