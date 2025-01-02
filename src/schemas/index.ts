@@ -3,8 +3,8 @@ import * as z from 'zod'
 export const passwordRegex = /^(?=.*[A-Z])(?=.*\d)[A-Za-z\d\W]{8,}$/
 
 export const createOrderSchema = z.object({
-  customerName: z.string().min(2).max(15).optional(),
-  customerPhone: z.string().min(2).max(15).optional(),
+  customerName: z.string().optional(),
+  customerPhone: z.string().optional(),
   paymentMode: z.string(),
   refCode: z.string().optional(),
 })

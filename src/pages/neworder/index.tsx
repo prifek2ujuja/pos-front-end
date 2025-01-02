@@ -96,7 +96,10 @@ const Index = () => {
         data: {
           // @ts-ignore
           orderItems: orderItems.value.map((val) => ({ product: val.product, quantity: val.quantity })),
-          orderTotal: orderItems.value.reduce((acc, currentValue) => acc + parseInt(currentValue.product.price), 0),
+          orderTotal: orderItems.value.reduce(
+            (acc, currentValue) => acc + parseInt(currentValue.product.price) * currentValue.quantity,
+            0,
+          ),
           paymentMode: data.paymentMode,
           refCode: data.refCode || '',
           customer: {
@@ -109,7 +112,10 @@ const Index = () => {
       await createOrder({
         // @ts-ignore
         orderItems: orderItems.value.map((val) => ({ product: val.product, quantity: val.quantity })),
-        orderTotal: orderItems.value.reduce((acc, currentValue) => acc + parseInt(currentValue.product.price), 0),
+        orderTotal: orderItems.value.reduce(
+          (acc, currentValue) => acc + parseInt(currentValue.product.price) * currentValue.quantity,
+          0,
+        ),
         paymentMode: data.paymentMode,
         refCode: data.refCode || '',
         customer: {
