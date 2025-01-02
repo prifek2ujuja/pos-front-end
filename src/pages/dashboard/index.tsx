@@ -8,6 +8,7 @@ import { Link } from 'react-router-dom'
 import DailyReports from './components/DailyReports'
 import useDecodeToken from 'src/hooks/useDecodeToken'
 import SalesLeaderboard from './components/SalesLeaderboard'
+import ProductsOrdersStats from './components/ProductsOrdersStats'
 
 const Dashboard = () => {
   const tokenData = useDecodeToken()
@@ -19,7 +20,7 @@ const Dashboard = () => {
         <>
           <Stats />
           <div className="grid grid-cols-2 gap-4 mb-16 min-h-[150px]">
-            <DailyReports />
+            {/* <DailyReports /> */}
             <SalesLeaderboard />
             <RecentPurchases />
           </div>
@@ -38,6 +39,8 @@ const Dashboard = () => {
           </Link>
         </div>
       )}
+
+      {/* <ProductsOrdersStats /> */}
 
       {/* <section className="flex flex-col lg:flex-row gap-10"> */}
 

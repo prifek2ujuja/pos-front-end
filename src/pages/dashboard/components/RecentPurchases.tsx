@@ -1,11 +1,11 @@
 import useListRecentOrders from 'src/hooks/queries/useListRecentOrders'
-import useOrdersTable from 'src/hooks/tableColumns/useOrdersTable'
 import { LoadingCard } from 'src/components/loading'
 import DataTable from './DataTable'
+import useRecentPurchasesTable from 'src/hooks/tableColumns/useRecentPurchasesTable'
 
 const RecentPurchases = () => {
   const { data: orders, isLoading: ordersIsLoading, isError, isFetched } = useListRecentOrders()
-  const tableColumns = useOrdersTable()
+  const tableColumns = useRecentPurchasesTable()
 
   return (
     <div className="rounded-2xl p-2 lg:p-4 bg-white shadow-xl w-full col-span-2">

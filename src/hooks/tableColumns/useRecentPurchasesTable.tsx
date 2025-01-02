@@ -8,7 +8,7 @@ import useDeleteOrder from '../mutations/useDeleteOrder'
 import { useNavigate } from 'react-router-dom'
 import useDecodeToken from '../useDecodeToken'
 
-const useOrdersTable = () => {
+const useRecentPurchasesTable = () => {
   const { mutate: deleteOrder } = useDeleteOrder()
   const navigate = useNavigate()
   const tokenData = useDecodeToken()
@@ -46,7 +46,8 @@ const useOrdersTable = () => {
       header: () => <p className="text-sm md:text-base text-primary font-medium">Date</p>,
       cell: ({ row }) => {
         const date: string = row.getValue('createdAt')
-        return <p className="text-sm">{dayjs(date).format('YYYY-MM-DD')}</p>
+        const formattedDate = dayjs(date).format('DD-MM-YYYY HH:mm:ss')
+        return <p className="text-sm">{formattedDate}</p>
       },
     },
     {
@@ -56,30 +57,6 @@ const useOrdersTable = () => {
         const orderTotal: number = row.getValue('orderTotal')
         const formattedTotal = orderTotal.toLocaleString('en-US')
         return <p className="">Ksh {formattedTotal}</p>
-      },
-    },
-    {
-      accessorKey: 'paymentMode',
-      header: () => <p className="text-sm md:text-base text-primary font-medium">Payment</p>,
-      cell: ({ row }) => {
-        const paymentMode: string = row.getValue('paymentMode')
-        return <p className="">{paymentMode || 'paystack'}</p>
-      },
-    },
-    {
-      accessorKey: 'delivery',
-      header: () => <p className="text-sm md:text-base text-primary font-medium">Delivery</p>,
-      cell: ({ row }) => {
-        const delivery: string = row.getValue('delivery')
-        return <p className="">{delivery}</p>
-      },
-    },
-    {
-      accessorKey: 'refCode',
-      header: () => <p className="text-sm md:text-base text-primary font-medium">Ref code</p>,
-      cell: ({ row }) => {
-        const refCode: string = row.getValue('refCode')
-        return <p className="">{refCode || 'N/A'}</p>
       },
     },
     {
@@ -131,4 +108,4 @@ const useOrdersTable = () => {
   return tableColumns
 }
 
-export default useOrdersTable
+export default useRecentPurchasesTable
