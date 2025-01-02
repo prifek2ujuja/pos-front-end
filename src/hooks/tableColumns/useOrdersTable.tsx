@@ -2,7 +2,7 @@ import { ColumnDef } from '@tanstack/react-table'
 import { AiOutlineDelete } from 'react-icons/ai'
 import { FaRegEdit } from 'react-icons/fa'
 import { Button } from 'src/components/ui/button'
-import { OrderItem, User } from 'src/types'
+import { Order, OrderItem, User } from 'src/types'
 import dayjs from 'dayjs'
 import useDeleteOrder from '../mutations/useDeleteOrder'
 import { useNavigate } from 'react-router-dom'
@@ -18,16 +18,7 @@ const useOrdersTable = () => {
       state: data,
     })
   }
-  const tableColumns: ColumnDef<{
-    _id: string
-    paymentMode: string
-    orderTotal: number
-    orderItems: OrderItem[]
-    createdAt: string
-    delivery: string
-    customerId: string
-    salesPerson: User
-  }>[] = [
+  const tableColumns: ColumnDef<Order>[] = [
     {
       accessorKey: 'orderItems',
       header: () => <p className="text-sm md:text-base text-primary font-medium">Order items</p>,

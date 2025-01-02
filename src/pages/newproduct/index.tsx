@@ -72,7 +72,7 @@ const Index = () => {
       name: data.productName,
       price: data.productPrice,
       stock: data.stock,
-      category: data.category,
+      category: data.category || 'supplement',
     }
     // if (downloadURL && imagePath) {
     //   payload.imageUrl = downloadURL

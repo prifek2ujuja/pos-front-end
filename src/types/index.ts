@@ -17,11 +17,14 @@ export type OrderItem = {
 }
 
 export type Order = {
-  customerId: string
-  orderItems: OrderItem[]
-  paymentStatus: string
+  _id: string
+  paymentMode: string
   orderTotal: number
+  orderItems: OrderItem[]
+  createdAt: string
   delivery: string
+  customerId: string
+  salesPerson: User
 }
 
 export type NewDashOrder = {

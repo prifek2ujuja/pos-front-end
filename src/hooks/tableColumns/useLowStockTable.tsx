@@ -3,7 +3,7 @@ import { AiOutlineDelete } from 'react-icons/ai'
 import { FaRegEdit } from 'react-icons/fa'
 import { Button } from 'src/components/ui/button'
 import useDeleteProduct from '../mutations/useDeleteProduct'
-import { Product } from 'src/types'
+import { Product, ProductImage } from 'src/types'
 import { useNavigate } from 'react-router-dom'
 import EditStock from 'src/pages/products/components/EditStock'
 import useDecodeToken from '../useDecodeToken'
@@ -47,17 +47,47 @@ const useLowStockTable = () => {
 
     {
       accessorKey: 'stock',
-      header: () => <p className="text-sm md:text-base text-gray font-semibold">Stock</p>,
+      header: () => <p className="text-sm uppercase text-primary font-medium">Store</p>,
       cell: ({ row }) => {
-        const { stock: backOfficeStock, inStore: inStoreStock, _id: productId, name: productName } = row.original
+        const product: Product = row.original
+        console.log('product :', product)
+        const backOfficeStock: string = product.stock.toString()
+        const inStoreStock: string = product.inStore.toString()
+        const productId: string = product._id
+        const productName: string = product.name
         return (
           <div className="flex gap-1 items-center">
             <p className="text-sm">{inStoreStock || 0}</p>
             {(role === 'manager' || role === 'admin') && (
               <EditStock
+                inStoreStock={parseInt(inStoreStock)}
                 productId={productId}
-                inStoreStock={inStoreStock}
-                backOfficeStock={backOfficeStock}
+                backOfficeStock={parseInt(backOfficeStock)}
+                productName={productName}
+              />
+            )}
+          </div>
+        )
+      },
+    },
+    {
+      accessorKey: 'stock',
+      header: () => <p className="text-sm uppercase text-primary font-medium">Back office</p>,
+      cell: ({ row }) => {
+        const product: Product = row.original
+        console.log('product :', product)
+        const backOfficeStock: string = product.stock.toString()
+        const inStoreStock: string = product.inStore.toString()
+        const productId: string = product._id
+        const productName: string = product.name
+        return (
+          <div className="flex gap-1 items-center">
+            <p className="text-sm">{backOfficeStock || 0}</p>
+            {(role === 'manager' || role === 'admin') && (
+              <EditStock
+                inStoreStock={parseInt(inStoreStock)}
+                productId={productId}
+                backOfficeStock={parseInt(backOfficeStock)}
                 productName={productName}
               />
             )}
@@ -68,14 +98,17 @@ const useLowStockTable = () => {
 
     {
       accessorKey: '_id',
-      header: () => <p className="text-sm md:text-base text-gray font-semibold">Action</p>,
+      header: () => <p className="text-sm uppercase text-primary font-medium">Action</p>,
       cell: ({ row }) => {
-        const productId: string = row.getValue('_id')
-        const description: string = row.getValue('description')
-        const stock: string = row.getValue('stock')
-        const name: string = row.getValue('name')
-        const productImage: string = row.getValue('productImage')
-        const price: string = row.getValue('price')
+        const product: Product = row.original
+        const productId: string = product._id
+        const description: string = product.description
+        const stock: string = product.stock.toString()
+        const name: string = product.name
+        const productImages: ProductImage[] | undefined = product.productImages
+        const productAvatar = 'https://avatars.githubusercontent.com/u/62663992'
+        const productImage = productImages && productImages.length > 0 ? productImages[0].imageUrl : productAvatar
+        const price: string = product.price.toString()
         const data = {
           productId,
           description,
@@ -83,6 +116,7 @@ const useLowStockTable = () => {
           name,
           productImage,
           price,
+          benefits: product.benefits,
         }
         return (
           <div>

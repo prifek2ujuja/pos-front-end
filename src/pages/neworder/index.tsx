@@ -126,6 +126,7 @@ const Index = () => {
     }
 
     orderForm.reset()
+    setPaymentMode('cash')
   }
 
   return (
@@ -178,17 +179,19 @@ const Index = () => {
                 </div>
               ) : (
                 <div className="h-full grid grid-cols-2 md:grid-cols-3 gap-5 md:gap-7 justify-center">
-                  {products?.map((product) => {
-                    const selected = orderItems.value.find((item) => item.product._id === product._id)
-                    return (
-                      <ProductCard
-                        addToCart={addToCart}
-                        product={product}
-                        selected={selected}
-                        key={crypto.randomUUID()}
-                      />
-                    )
-                  })}
+                  {products
+                    ?.filter((product) => product.inStore > 0)
+                    .map((product) => {
+                      const selected = orderItems.value.find((item) => item.product._id === product._id)
+                      return (
+                        <ProductCard
+                          addToCart={addToCart}
+                          product={product}
+                          selected={selected}
+                          key={crypto.randomUUID()}
+                        />
+                      )
+                    })}
                 </div>
               )}
             </div>

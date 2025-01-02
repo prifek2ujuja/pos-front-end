@@ -5,7 +5,7 @@ import Auth from 'src/state/Auth'
 // Define the base URL for your API depending on the environment
 const environment = import.meta.env.DEV
 
-const baseUrl = environment ? import.meta.env.VITE_BACKEND_URL_DEV : import.meta.env.VITE_BACKEND_URL_PROD
+const baseUrl = environment ? 'http://localhost:3000' : import.meta.env.VITE_BACKEND_URL_PROD
 
 const api = axios.create({
   baseURL: `${baseUrl}/api/`,

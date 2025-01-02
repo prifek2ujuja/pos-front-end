@@ -63,7 +63,7 @@ const FilterOrders = ({ handleApplyFilter, handleClearFilter, isLoading, enabled
                       </FormControl>
                       <SelectContent className="poppins-regular">
                         <SelectItem value="cash">Cash</SelectItem>
-                        <SelectItem value="m-pesa">M-pesa</SelectItem>
+                        <SelectItem value="mpesa">M-pesa</SelectItem>
                       </SelectContent>
                     </Select>
                     <FormDescription>Payment method used</FormDescription>
