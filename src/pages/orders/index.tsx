@@ -24,7 +24,7 @@ const Index = () => {
         <div className="flex justify-between items-center">
           <h1 className="my-5 font-medium">Sales</h1>
           <Link to="/sell">
-            <Button className="bg-sky text-sm">New order</Button>
+            <Button className="bg-sky text-sm">New sale</Button>
           </Link>
         </div>
         <FilterOrders

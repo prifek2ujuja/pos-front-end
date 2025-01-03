@@ -64,7 +64,7 @@ const useProductsTable = () => {
     },
     {
       accessorKey: 'stock',
-      header: () => <p className="text-sm uppercase text-primary font-medium">Store</p>,
+      header: () => <p className="text-sm uppercase text-primary font-medium">Shelf</p>,
       cell: ({ row }) => {
         const product: Product = row.original
         console.log('product :', product)

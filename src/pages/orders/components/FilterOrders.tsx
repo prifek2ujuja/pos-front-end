@@ -31,7 +31,7 @@ const FilterOrders = ({ handleApplyFilter, handleClearFilter, isLoading, enabled
   return (
     <Accordion type="single" collapsible>
       <AccordionItem value="item-1" className="max-w-md mb-3">
-        <AccordionTrigger>Filter orders</AccordionTrigger>
+        <AccordionTrigger>Filter sales</AccordionTrigger>
         <AccordionContent>
           <Form {...filterOrdersForm}>
             <form className="flex flex-col max-w-md gap-1" onSubmit={filterOrdersForm.handleSubmit(handleApplyFilter)}>

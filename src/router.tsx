@@ -25,7 +25,7 @@ export const routerObjects: RouteObject[] = [
     Component: Dashboard,
   },
   {
-    path: '/orders',
+    path: '/sales',
     Component: Orders,
   },
   {

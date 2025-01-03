@@ -20,13 +20,13 @@ const Aside = () => {
         <p>Overview</p>
       </Link>
       <Link
-        to="/orders"
+        to="/sales"
         className={`flex items-center font-medium rounded-xl gap-2 p-2 ${
-          pathname.includes('orders') ? 'text-sky bg-primary' : ''
+          pathname.includes('sales') ? 'text-sky bg-primary' : ''
         }`}
       >
         <CiWallet />
-        <p>Orders</p>
+        <p>Sales</p>
       </Link>
       <Link
         to="/products"

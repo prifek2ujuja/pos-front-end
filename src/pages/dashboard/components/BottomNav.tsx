@@ -27,13 +27,13 @@ const BottomNav = () => {
         <p className="hidden md:text-xs">Products</p>
       </Link>
       <Link
-        to="/orders"
+        to="/sales"
         className={`flex flex-col rounded-2xl items-center gap-6 p-4 ${
-          pathname === '/orders' ? 'text-sky bg-primary' : ''
+          pathname === '/sales' ? 'text-sky bg-primary' : ''
         }`}
       >
         <CiWallet className="text-2xl" />
-        <p className="hidden md:text-xs">Orders</p>
+        <p className="hidden md:text-xs">Sales</p>
       </Link>
 
       <Link

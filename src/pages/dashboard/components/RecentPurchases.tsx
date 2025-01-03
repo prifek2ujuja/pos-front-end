@@ -9,7 +9,7 @@ const RecentPurchases = () => {
 
   return (
     <div className="rounded-2xl p-2 lg:p-4 bg-white shadow-xl w-full col-span-2">
-      <h1 className="font-medium text-sm md:text-base mb-3">Recent purchases</h1>
+      <h1 className="font-medium text-sm md:text-base mb-3">Recent sales</h1>
       {ordersIsLoading ? (
         <LoadingCard />
       ) : isError ? (
